@@ -152,6 +152,29 @@ double SamplerDefaultImpl1::sampleDiscrete(double acumProb, double value, ...) {
 	return 0.0;
 }
 
+/* Discrete Distributions: Binomal and Geometric */
+
+double SamplerDefaultImpl1::sampleBinomial(int trials){
+	double binomial = 0.0;
+	double U;
+
+	for(int i = 0; i < trials; i++){
+		U = sampleUniform(0.0, 1.0);
+		if(U < 0.5){
+			binomial += 1.0;
+		}
+	}
+
+	return binomial;
+}
+
+double SamplerDefaultImpl1::sampleGeometric(double k, double p){
+	assert(p > 0 && p <= 1);
+
+	return pow((1-p),(k-1))*p;
+}
+
+
 double SamplerDefaultImpl1::sampleGumbellInv(double mode, double scale) {
 	double x;
 	x = random();
@@ -176,14 +199,10 @@ double SamplerDefaultImpl1::sampleChiSqrt(double degrees) {
 
 double SamplerDefaultImpl1::gammaFunction(int n) {
     int fact = n - 1;
-	if (fact == 0) {
-		return 1;
-	}
-
-    for (int i = (fact - 1); i > 1; i--) {
+    for (int i = (fact - 1); n > 1; n--) {
         fact *= i;
     }
-    
+
     return fact;
 }
 
@@ -203,7 +222,6 @@ double SamplerDefaultImpl1::sampleBetaPDF(int alpha, int beta) {
     x = random();
 
     return (pow(x,alpha-1)*pow(1-x, beta-1))/betaFunction(alpha, beta);
-    //return betaFunction(alpha, beta);
 }
 
 void SamplerDefaultImpl1::setRNGparameters(Sampler_if::RNG_Parameters * param) {
