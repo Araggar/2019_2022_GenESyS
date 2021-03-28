@@ -10,6 +10,7 @@
  * 
  * Created on 3 de Setembro de 2019, 18:34
  */
+
 #include <fstream>
 #include <iostream>
 
@@ -50,16 +51,18 @@ int FirstExampleOfSimulation::main(int argc, char** argv) {
 	file.close();
 
 	sampler.reset();
-	file.open("Beta(1,2)-Output");
+
+	file.open("Beta(2,5)-Output");
 	for (int i = 0; i < 1000; i++) {
-		file << sampler.sampleBetaPDF(1,2) << std::endl;
+		file << sampler.sampleBetaPDF(2,5) << std::endl;
 	}
 	file.close();
 
 	sampler.reset();
-	file.open("Gamma(1,2)-Output");
+
+	file.open("Gamma(2,5)-Output");
 	for (int i = 0; i < 1000; i++) {
-		file << sampler.sampleGammaPDF(1,2) << std::endl;
+		file << sampler.sampleGammaPDF(2,5) << std::endl;
 	}
 	file.close();
 

@@ -198,12 +198,15 @@ double SamplerDefaultImpl1::sampleChiSqrt(double degrees) {
 }
 
 double SamplerDefaultImpl1::gammaFunction(int n) {
-    int fact = n - 1;
-    for (int i = (fact - 1); n > 1; n--) {
-        fact *= i;
-    }
+  int fact = n - 1;
 
-    return fact;
+	if (fact == 0) {
+		return 1;
+	}
+
+	for (int i = (fact - 1); i > 1; i--) {
+	    fact *= i;
+	}
 }
 
 double SamplerDefaultImpl1::sampleGammaPDF(int alpha, int beta) {
