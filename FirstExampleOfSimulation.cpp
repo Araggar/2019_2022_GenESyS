@@ -69,14 +69,14 @@ int FirstExampleOfSimulation::main(int argc, char** argv) {
 	sampler.reset();
 	file.open("sampleBinomial(10)-Output");
 		for(int i = 0; i < 1000; i++){
-		file << sampler.sampleBinomial(10) << std::endl;
+		file << sampler.sampleBinomial(15) << std::endl;
 	}
 	file.close();
 
 	sampler.reset();
-	file.open("sampleGeometric(0.02)-Output");
+	file.open("sampleGeometric(0.5)-Output");
 		for(int i = 0; i < 100; i++){
-		file << sampler.sampleGeometric(i, 0.02) << std::endl;
+		file << sampler.sampleGeometric(0.5) << std::endl;
 	}
 	file.close();
 

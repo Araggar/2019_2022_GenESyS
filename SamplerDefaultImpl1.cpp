@@ -168,10 +168,11 @@ double SamplerDefaultImpl1::sampleBinomial(int trials){
 	return binomial;
 }
 
-double SamplerDefaultImpl1::sampleGeometric(double k, double p){
+double SamplerDefaultImpl1::sampleGeometric(double p){
 	assert(p > 0 && p <= 1);
+	double rand = random();
 
-	return pow((1-p),(k-1))*p;
+	return ceil(log(1-rand) / log(1-p));
 }
 
 
