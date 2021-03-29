@@ -176,16 +176,10 @@ double SamplerDefaultImpl1::sampleGeometric(double p){
 }
 
 
-double SamplerDefaultImpl1::sampleGumbellInv(double mode, double scale) {
-	double x;
-	x = random();
-	return mode - (scale * log(-log(x)));
-}
-
 double SamplerDefaultImpl1::sampleGumbell(double mode, double scale) {
 	double x;
 	x = random();
-	return exp(-exp(-(x-mode)/scale));
+	return mode - (scale * log(-log(x)));
 }
 
 double SamplerDefaultImpl1::sampleChiSqrt(double degrees) {

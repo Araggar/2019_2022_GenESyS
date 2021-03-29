@@ -44,14 +44,6 @@ int FirstExampleOfSimulation::main(int argc, char** argv) {
 	file.close();
 
 	sampler.reset();
-	file.open("GumbellInv(1,2)-Output");
-	for (int i = 0; i < 1000; i++) {
-		file << sampler.sampleGumbellInv(1,2) << std::endl;
-	}
-	file.close();
-
-	sampler.reset();
-
 	file.open("Beta(2,5)-Output");
 	for (int i = 0; i < 1000; i++) {
 		file << sampler.sampleBetaPDF(2,5) << std::endl;

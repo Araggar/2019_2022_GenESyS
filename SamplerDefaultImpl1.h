@@ -41,7 +41,6 @@
 		virtual double sampleTriangular(double min, double mode, double max);
 		virtual double sampleUniform(double min, double max);
 		virtual double sampleWeibull(double alpha, double scale);
-		virtual double sampleGumbellInv(double mode, double scale);
 		virtual double sampleGumbell(double mode, double scale);
 		virtual double sampleChiSqrt(double degrees);
     virtual double sampleGammaPDF(int alpha, int beta);
