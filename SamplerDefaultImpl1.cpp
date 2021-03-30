@@ -155,7 +155,7 @@ double SamplerDefaultImpl1::sampleDiscrete(double acumProb, double value, ...) {
 
 /* Discrete Distributions: Binomal and Geometric */
 
-double SamplerDefaultImpl1::sampleBinomial(int trials){
+double SamplerDefaultImpl1::sampleBinomial(int trials, double p){
 	double binomial = 0.0;
 	std::random_device rd;
 	std::mt19937 gen(rd());
@@ -164,7 +164,7 @@ double SamplerDefaultImpl1::sampleBinomial(int trials){
 
 	for(int i = 0; i < trials; i++){
 		U = dis(gen);
-		if(U < 0.5){
+		if(U < p){
 			binomial += 1.0;
 		}
 	}
