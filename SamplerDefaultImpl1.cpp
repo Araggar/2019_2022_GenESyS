@@ -12,6 +12,7 @@
  * 22/10/2019 old genesys code reinserted
  */
 
+#include <random>
 #include <cmath>
 #include <complex>
 #include <cassert>
@@ -170,7 +171,11 @@ double SamplerDefaultImpl1::sampleBinomial(int trials){
 
 double SamplerDefaultImpl1::sampleGeometric(double p){
 	assert(p > 0 && p <= 1);
-	double rand = random();
+	//double rand = random();
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_real_distribution<> dis(0,1);
+	double rand = dis(gen);
 
 	return ceil(log(1-rand) / log(1-p));
 }
