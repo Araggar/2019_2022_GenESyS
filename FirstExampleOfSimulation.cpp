@@ -43,16 +43,17 @@ int FirstExampleOfSimulation::main(int argc, char** argv) {
 
 	// Gumbell 
 	sampler.reset();
-	file.open("Gumbell(1,2)-Output");
+	file.open("Gumbell(3,4)-Output");
 	for (int i = 0; i < 1000; i++) {
-		file << sampler.sampleGumbell(1,2) << std::endl;
+		file << sampler.sampleGumbell(3,4) << std::endl;
 	}
 	file.close();
 	
 	sampler.reset();
-	file.open("Gumbell(3,4)-Output");
+	std::extreme_value_distribution<> ed(3,4);
+	file.open("StdGumbell(3,4)-Output");
 	for (int i = 0; i < 1000; i++) {
-		file << sampler.sampleGumbell(1,2) << std::endl;
+		file << ed(gen) << std::endl;
 	}
 	file.close();
 
