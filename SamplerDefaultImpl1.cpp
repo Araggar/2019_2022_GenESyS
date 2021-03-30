@@ -67,7 +67,7 @@ double SamplerDefaultImpl1::sampleCauchy(double loc, double scale) {
 	std::uniform_real_distribution<> dis(0,1);
 	double x;
 	x = dis(gen);
-	return loc + scale*std::tan(M_PI*(x-0.5));
+	return loc + scale*tan(M_PI*(x-0.5));
 }
 
 double SamplerDefaultImpl1::_gammaJonk(double alpha) {
