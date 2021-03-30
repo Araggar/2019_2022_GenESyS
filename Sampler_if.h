@@ -29,7 +29,7 @@ public:
 public: // probability distributions
 	virtual double random() = 0;
 	virtual double sampleBeta(double alpha, double beta, double infLimit, double supLimit) = 0;
-	virtual double sampleDiscrete(double acumProb, double *prob, double *value, int size) = 0;
+	virtual double sampleDiscrete(double acumProb, double value, ...) = 0;
 	virtual double sampleErlang(double mean, int M) = 0;
 	virtual double sampleExponential(double mean) = 0;
 	virtual double sampleGamma(double mean, double alpha) = 0;

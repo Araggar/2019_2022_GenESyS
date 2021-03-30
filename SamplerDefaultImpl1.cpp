@@ -65,11 +65,8 @@ double SamplerDefaultImpl1::sampleNormal(double mean, double stddev) {
 }
 
 double SamplerDefaultImpl1::sampleCauchy(double loc, double scale) {
-	std::random_device rd;
-	std::mt19937 gen(rd());
-	std::uniform_real_distribution<> dis(-0.5,0.5);
 	double x;
-	x = dis(gen);
+	x = sampleUniform(-0.5,0.5);
 	return loc + scale*tan(M_PI*(x));
 }
 
@@ -160,14 +157,16 @@ double SamplerDefaultImpl1::sampleTriangular(double min, double mode, double max
 		return max - sqrt(Part2 * Full * (1.0 - R));
 }
 
+double SamplerDefaultImpl1::sampleDiscrete(double acumProb, double value, ...) {
+	// \todo: to implement
+	return 0.0;
+}
+
 double SamplerDefaultImpl1::sampleDiscrete(double acumProb, double *prob, double *value, int size) {
 	// \todo: to implement
 	double cdf = 0;
-	std::random_device rd;
-	std::mt19937 gen(rd());
-	std::uniform_real_distribution<> dis(0,1);
 	double x;
-	x = dis(gen);
+	x = sampleUniform(0,1);
 
 	for (int i = 0; i < size; i++) {
 		cdf += prob[i]/acumProb;
@@ -182,13 +181,10 @@ double SamplerDefaultImpl1::sampleDiscrete(double acumProb, double *prob, double
 
 double SamplerDefaultImpl1::sampleBinomial(int trials, double p){
 	double binomial = 0.0;
-	std::random_device rd;
-	std::mt19937 gen(rd());
-	std::uniform_real_distribution<> dis(0,1);
 	double U;
 
 	for(int i = 0; i < trials; i++){
-		U = dis(gen);
+		U = sampleUniform(0,1);
 		if(U < p){
 			binomial += 1.0;
 		}
@@ -198,12 +194,9 @@ double SamplerDefaultImpl1::sampleBinomial(int trials, double p){
 }
 
 double SamplerDefaultImpl1::sampleBernoulli(double p){
-	std::random_device rd;
-	std::mt19937 gen(rd());
-	std::uniform_real_distribution<> dis(0,1);
 	double U;
 
-	U = dis(gen);
+	U = sampleNormal(0,1);
 	if(U <= p){
 		return 1.0;
 	}
@@ -212,11 +205,7 @@ double SamplerDefaultImpl1::sampleBernoulli(double p){
 
 double SamplerDefaultImpl1::sampleGeometric(double p){
 	assert(p > 0 && p <= 1);
-	//double rand = random();
-	std::random_device rd;
-	std::mt19937 gen(rd());
-	std::uniform_real_distribution<> dis(0,1);
-	double rand = dis(gen);
+	double rand = sampleNormal(0,1);
 
 	return ceil(log(1-rand) / log(1-p));
 }
@@ -224,39 +213,11 @@ double SamplerDefaultImpl1::sampleGeometric(double p){
 
 double SamplerDefaultImpl1::sampleGumbell(double mode, double scale) {
 	double x;
-	std::random_device rd;
-	std::mt19937 gen(rd());
-	std::uniform_real_distribution<> dis(0,1);
-	x = dis(gen);
+	x = sampleNormal(0,1);
 	return mode - (scale * log(-log(x)));
 }
 
-double SamplerDefaultImpl1::sampleChiSqrt(double degrees) {
-	double chi2, z;
-	chi2 = 0;
-	for (int i=0; i < degrees; i++) {
-		z = sampleNormal(0,1);
-		chi2 = chi2 + (z*z);
-	}
-	return chi2;
-}
-
-double SamplerDefaultImpl1::gammaFunction(int n) {
-  int fact = n - 1;
-
-	if (fact == 0) {
-		return 1;
-	}
-	for (int i = (fact - 1); i > 1; i--) {
-	    fact *= i;
-	}
-}
-
 double SamplerDefaultImpl1::sampleGamma2(double alpha, double beta) {
-	std::random_device rd;
-	std::mt19937 gen(rd());
-	std::uniform_real_distribution<> dis(0,1);
-
     double u,v,w,delta;
 	double eps;
 	double nt;	
@@ -266,9 +227,9 @@ double SamplerDefaultImpl1::sampleGamma2(double alpha, double beta) {
 	delta = alpha - n;
 
 	while (1) {
-		u = dis(gen);
-		v = dis(gen);
-		w = dis(gen);
+		u = sampleNormal(0,1);
+		v = sampleNormal(0,1);
+		w = sampleNormal(0,1);
 		if (u <= (M_E/(M_E+delta))) {
 			eps = pow(v,1/delta);
 			nt = w*pow(eps,delta-1);
@@ -283,23 +244,12 @@ double SamplerDefaultImpl1::sampleGamma2(double alpha, double beta) {
 	}	
 	double gamma_n = 0;
 	for (int i = 0; i<n; i++) {
-		gamma_n += log(dis(gen));
+		gamma_n += log(sampleNormal(0,1));
 	}
 
 	double gamma = beta * (eps - gamma_n);
 
 	return gamma;
-}
-
-double SamplerDefaultImpl1::betaFunction(int y, int x) {
-    return gammaFunction(x)*gammaFunction(y)/gammaFunction(x+y);
-}
-
-double SamplerDefaultImpl1::sampleBetaPDF(int alpha, int beta) {
-    double x;
-    x = random();
-
-    return (pow(x,alpha-1)*pow(1-x, beta-1))/betaFunction(alpha, beta);
 }
 
 void SamplerDefaultImpl1::setRNGparameters(Sampler_if::RNG_Parameters * param) {

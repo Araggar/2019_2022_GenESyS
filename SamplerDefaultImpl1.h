@@ -32,6 +32,7 @@
 	public: // probability distributions
 		virtual double random();
 		virtual double sampleBeta(double alpha, double beta, double infLimit, double supLimit);
+		virtual double sampleDiscrete(double acumProb, double value, ...);
 		virtual double sampleDiscrete(double acumProb, double *prob, double *value, int size);
 		virtual double sampleErlang(double mean, int M);
 		virtual double sampleExponential(double mean);
@@ -42,9 +43,7 @@
 		virtual double sampleUniform(double min, double max);
 		virtual double sampleWeibull(double alpha, double scale);
 		virtual double sampleGumbell(double mode, double scale);
-		virtual double sampleChiSqrt(double degrees);
 	virtual double sampleGamma2(double alpha, double beta);
-    virtual double sampleBetaPDF(int alpha, int beta);
     virtual double sampleBinomial(int trials, double p);
     virtual double sampleBernoulli(double p);
     virtual double sampleGeometric(double p);
