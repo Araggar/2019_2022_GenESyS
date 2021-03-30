@@ -148,7 +148,7 @@ double SamplerDefaultImpl1::sampleTriangular(double min, double mode, double max
 		return max - sqrt(Part2 * Full * (1.0 - R));
 }
 
-double SamplerDefaultImpl1::sampleDiscrete(double acumProb, double *value, int size) {
+double SamplerDefaultImpl1::sampleDiscrete(double acumProb, double *prob, double *value, int size) {
 	// \todo: to implement
 	double cdf = 0;
 	std::random_device rd;
@@ -158,7 +158,7 @@ double SamplerDefaultImpl1::sampleDiscrete(double acumProb, double *value, int s
 	x = dis(gen);
 
 	for (int i = 0; i < size; i++) {
-		cdf += value[i]/acumProb;
+		cdf += prob[i]/acumProb;
 		if (x <= cdf) {
 			return value[i];
 		}
