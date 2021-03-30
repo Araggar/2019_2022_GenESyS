@@ -64,10 +64,10 @@ double SamplerDefaultImpl1::sampleNormal(double mean, double stddev) {
 double SamplerDefaultImpl1::sampleCauchy(double loc, double scale) {
 	std::random_device rd;
 	std::mt19937 gen(rd());
-	std::uniform_real_distribution<> dis(0,1);
+	std::uniform_real_distribution<> dis(-0.5,0.5);
 	double x;
 	x = dis(gen);
-	return loc + scale*tan(M_PI*(x-0.5));
+	return loc + scale*tan(M_PI*(x));
 }
 
 double SamplerDefaultImpl1::_gammaJonk(double alpha) {
