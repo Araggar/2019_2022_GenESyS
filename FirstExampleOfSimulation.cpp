@@ -76,7 +76,7 @@ int FirstExampleOfSimulation::main(int argc, char** argv) {
 	// Discrete
 	sampler.reset();
 	file.open("Discrete(10, [4,1,2,3],4)-Output");
-	double values[4] = {1,2,3,4};
+	double values[4] = {4,1,1,4};
 	for (int i = 0; i < 1000; i++) {
 		file << sampler.sampleDiscrete(10,values,4) << std::endl;
 	}
