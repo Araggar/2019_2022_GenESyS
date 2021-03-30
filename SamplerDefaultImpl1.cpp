@@ -186,7 +186,10 @@ double SamplerDefaultImpl1::sampleGeometric(double p){
 
 double SamplerDefaultImpl1::sampleGumbell(double mode, double scale) {
 	double x;
-	x = random();
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_real_distribution<> dis(0,1);
+	x = dis(gen);
 	return mode - (scale * log(-log(x)));
 }
 
