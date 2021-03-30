@@ -252,15 +252,18 @@ double SamplerDefaultImpl1::gammaFunction(int n) {
 	}
 }
 
-double SamplerDefaultImpl1::sampleGamma2(int n, double delta, double beta) {
-    double u,v,w;
+double SamplerDefaultImpl1::sampleGamma2(double alpha, double beta) {
 	std::random_device rd;
 	std::mt19937 gen(rd());
 	std::uniform_real_distribution<> dis(0,1);
 
+    double u,v,w,delta;
 	double eps;
 	double nt;	
+	int n;
 
+	n = floor(alpha);
+	delta = alpha - n;
 
 	while (1) {
 		u = dis(gen);

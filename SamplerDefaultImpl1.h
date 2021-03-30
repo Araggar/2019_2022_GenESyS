@@ -43,7 +43,7 @@
 		virtual double sampleWeibull(double alpha, double scale);
 		virtual double sampleGumbell(double mode, double scale);
 		virtual double sampleChiSqrt(double degrees);
-	virtual double sampleGamma2(int mean, double alpha, double beta);
+	virtual double sampleGamma2(double alpha, double beta);
     virtual double sampleBetaPDF(int alpha, int beta);
     virtual double sampleBinomial(int trials, double p);
     virtual double sampleBernoulli(double p);
