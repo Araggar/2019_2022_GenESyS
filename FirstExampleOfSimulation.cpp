@@ -11,6 +11,7 @@
  * Created on 3 de Setembro de 2019, 18:34
  */
 
+#include <random>
 #include <fstream>
 #include <iostream>
 
@@ -26,16 +27,21 @@ FirstExampleOfSimulation::FirstExampleOfSimulation() {
  * It instanciates the simulator, builds a simulation model and then simulate that model.
  */
 int FirstExampleOfSimulation::main(int argc, char** argv) {
+
+	std::random_device rd;
+	std::mt19937 gen(rd());
+
 	SamplerDefaultImpl1 sampler = SamplerDefaultImpl1();
 
 	std::ofstream file;
-	file.open("Chi2(2)-Output");
+//	file.open("Chi2(2)-Output");
+//
+//	for (int i = 0; i < 1000; i++) {
+//		file << sampler.sampleChiSqrt(2) << std::endl;
+//	}
+//	file.close();
 
-	for (int i = 0; i < 1000; i++) {
-		file << sampler.sampleChiSqrt(2) << std::endl;
-	}
-	file.close();
-
+	// Gumbell 
 	sampler.reset();
 	file.open("Gumbell(1,2)-Output");
 	for (int i = 0; i < 1000; i++) {
@@ -43,21 +49,22 @@ int FirstExampleOfSimulation::main(int argc, char** argv) {
 	}
 	file.close();
 
-	sampler.reset();
-	file.open("Beta(2,5)-Output");
-	for (int i = 0; i < 1000; i++) {
-		file << sampler.sampleBetaPDF(2,5) << std::endl;
-	}
-	file.close();
+	//sampler.reset();
+	//file.open("Beta(2,5)-Output");
+	//for (int i = 0; i < 1000; i++) {
+	//	file << sampler.sampleBetaPDF(2,5) << std::endl;
+	//}
+	//file.close();
 
-	sampler.reset();
+	//sampler.reset();
 
-	file.open("Gamma(2,5)-Output");
-	for (int i = 0; i < 1000; i++) {
-		file << sampler.sampleGammaPDF(2,5) << std::endl;
-	}
-	file.close();
+	//file.open("Gamma(2,5)-Output");
+	//for (int i = 0; i < 1000; i++) {
+	//	file << sampler.sampleGammaPDF(2,5) << std::endl;
+	//}
+	//file.close();
 
+	// Binomial & std::binomial_distribution
 	sampler.reset();
 	file.open("sampleBinomial(10)-Output");
 		for(int i = 0; i < 1000; i++){
@@ -65,10 +72,19 @@ int FirstExampleOfSimulation::main(int argc, char** argv) {
 	}
 	file.close();
 
+	// Geometric and std::geometric_distribution
 	sampler.reset();
 	file.open("sampleGeometric(0.5)-Output");
-		for(int i = 0; i < 100; i++){
+		for(int i = 0; i < 1000; i++){
 		file << sampler.sampleGeometric(0.5) << std::endl;
+	}
+	file.close();
+	
+	sampler.reset();
+	std::geometric_distribution<> gd(0.5);	
+	file.open("sampleSTDGeometric(0.5)-Output");
+		for(int i = 0; i < 1000; i++){
+		file << gd(gen) << std::endl;
 	}
 	file.close();
 
