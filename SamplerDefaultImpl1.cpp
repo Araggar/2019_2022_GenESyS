@@ -218,6 +218,14 @@ double SamplerDefaultImpl1::sampleGumbell(double mode, double scale) {
 	return mode - (scale * log(-log(x)));
 }
 
+double SamplerDefaultImpl1::sampleBeta2(double alpha, double beta) {
+
+	double x = sampleGamma(alpha,1);
+	double y = sampleGamma(beta,1);
+	return x/(x+y);
+
+}
+
 double SamplerDefaultImpl1::sampleGamma2(double alpha, double beta) {
     double u,v,w,delta;
 	double eps;

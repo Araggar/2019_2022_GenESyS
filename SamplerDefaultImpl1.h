@@ -44,6 +44,7 @@
 		virtual double sampleWeibull(double alpha, double scale);
 		virtual double sampleGumbell(double mode, double scale);
 	virtual double sampleGamma2(double alpha, double beta);
+	virtual double sampleBeta2(double alpha, double beta);
     virtual double sampleBinomial(int trials, double p);
     virtual double sampleBernoulli(double p);
     virtual double sampleGeometric(double p);
