@@ -48,6 +48,13 @@ int FirstExampleOfSimulation::main(int argc, char** argv) {
 		file << sampler.sampleGumbell(1,2) << std::endl;
 	}
 	file.close();
+	
+	sampler.reset();
+	file.open("Gumbell(3,4)-Output");
+	for (int i = 0; i < 1000; i++) {
+		file << sampler.sampleGumbell(1,2) << std::endl;
+	}
+	file.close();
 
 	//sampler.reset();
 	//file.open("Beta(2,5)-Output");
