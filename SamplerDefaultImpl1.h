@@ -46,6 +46,7 @@
     virtual double sampleGammaPDF(int alpha, int beta);
     virtual double sampleBetaPDF(int alpha, int beta);
     virtual double sampleBinomial(int trials, double p);
+    virtual double sampleBernoulli(double p);
     virtual double sampleGeometric(double p);
 
 	public:

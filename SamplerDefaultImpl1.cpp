@@ -172,6 +172,19 @@ double SamplerDefaultImpl1::sampleBinomial(int trials, double p){
 	return binomial;
 }
 
+double SamplerDefaultImpl1::sampleBernoulli(double p){
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_real_distribution<> dis(0,1);
+	double U;
+
+	U = dis(gen);
+	if(U <= p){
+		return 1.0;
+	}
+	return 0.0;
+}
+
 double SamplerDefaultImpl1::sampleGeometric(double p){
 	assert(p > 0 && p <= 1);
 	//double rand = random();
