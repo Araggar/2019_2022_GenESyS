@@ -34,12 +34,6 @@ int FirstExampleOfSimulation::main(int argc, char** argv) {
 	SamplerDefaultImpl1 sampler = SamplerDefaultImpl1();
 
 	std::ofstream file;
-//	file.open("Chi2(2)-Output");
-//
-//	for (int i = 0; i < 1000; i++) {
-//		file << sampler.sampleChiSqrt(2) << std::endl;
-//	}
-//	file.close();
 
 	// Gumbell 
 	sampler.reset();
@@ -90,31 +84,21 @@ int FirstExampleOfSimulation::main(int argc, char** argv) {
 		file << sampler.sampleCauchy(0,1) << std::endl;
 	}
 	file.close();
-	
-//	sampler.reset();
-//	std::bernoulli_distribution berd(0.2);
-//	file.open("StdBernoulli(0.2)-Output");
-//	for (int i = 0; i < 1000; i++) {
-//		file << berd(gen) << std::endl;
-//	}
-//	file.close();
 
-	sampler.reset();
+	// Beta
 	file.open("Beta(0.5,2)-Output");
 	for (int i = 0; i < 1000; i++) {
 		file << sampler.sampleBeta2(0.5,2) << std::endl;
 	}
 	file.close();
 
-	sampler.reset();
 	file.open("Beta(2,5)-Output");
 	for (int i = 0; i < 1000; i++) {
 		file << sampler.sampleBeta2(2,5) << std::endl;
 	}
 	file.close();
 
-	//sampler.reset();
-
+	// Gamma
 	file.open("Gamma(2.5,2)-Output");
 	for (int i = 0; i < 1000; i++) {
 		file << sampler.sampleGamma2(2.5,2) << std::endl;
