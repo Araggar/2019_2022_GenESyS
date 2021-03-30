@@ -33,7 +33,8 @@ void SamplerDefaultImpl1::reset() {
 double SamplerDefaultImpl1::random() {
 	std::random_device rd;
 	std::mt19937 gen(rd());
-	return gen();
+	std::uniform_real_distribution<> ud(0.0,1.0);
+	return ud(gen);
 	//double module = (double) static_cast<DefaultImpl1RNG_Parameters*> (_param)->module;
 	//_xi *= static_cast<DefaultImpl1RNG_Parameters*> (_param)->multiplier;
 	//_xi -= std::trunc((double) _xi / module) * module;
@@ -66,8 +67,8 @@ double SamplerDefaultImpl1::sampleNormal(double mean, double stddev) {
 
 double SamplerDefaultImpl1::sampleCauchy(double loc, double scale) {
 	double x;
-	x = sampleUniform(-0.5,0.5);
-	return loc + scale*tan(M_PI*(x));
+	x = random();
+	return loc + scale*tan(M_PI*(x-0.5));
 }
 
 double SamplerDefaultImpl1::_gammaJonk(double alpha) {
@@ -166,7 +167,7 @@ double SamplerDefaultImpl1::sampleDiscrete(double acumProb, double *prob, double
 	// \todo: to implement
 	double cdf = 0;
 	double x;
-	x = sampleUniform(0,1);
+	x = random();
 
 	for (int i = 0; i < size; i++) {
 		cdf += prob[i]/acumProb;
@@ -184,7 +185,7 @@ double SamplerDefaultImpl1::sampleBinomial(int trials, double p){
 	double U;
 
 	for(int i = 0; i < trials; i++){
-		U = sampleUniform(0,1);
+		U = random();
 		if(U < p){
 			binomial += 1.0;
 		}
@@ -196,7 +197,7 @@ double SamplerDefaultImpl1::sampleBinomial(int trials, double p){
 double SamplerDefaultImpl1::sampleBernoulli(double p){
 	double U;
 
-	U = sampleNormal(0,1);
+	U = random();
 	if(U <= p){
 		return 1.0;
 	}
@@ -205,7 +206,7 @@ double SamplerDefaultImpl1::sampleBernoulli(double p){
 
 double SamplerDefaultImpl1::sampleGeometric(double p){
 	assert(p > 0 && p <= 1);
-	double rand = sampleNormal(0,1);
+	double rand = random();
 
 	return ceil(log(1-rand) / log(1-p));
 }
@@ -213,7 +214,7 @@ double SamplerDefaultImpl1::sampleGeometric(double p){
 
 double SamplerDefaultImpl1::sampleGumbell(double mode, double scale) {
 	double x;
-	x = sampleNormal(0,1);
+	x = random();
 	return mode - (scale * log(-log(x)));
 }
 
@@ -227,9 +228,9 @@ double SamplerDefaultImpl1::sampleGamma2(double alpha, double beta) {
 	delta = alpha - n;
 
 	while (1) {
-		u = sampleNormal(0,1);
-		v = sampleNormal(0,1);
-		w = sampleNormal(0,1);
+		u = random();
+		v = random();
+		w = random();
 		if (u <= (M_E/(M_E+delta))) {
 			eps = pow(v,1/delta);
 			nt = w*pow(eps,delta-1);
@@ -244,7 +245,7 @@ double SamplerDefaultImpl1::sampleGamma2(double alpha, double beta) {
 	}	
 	double gamma_n = 0;
 	for (int i = 0; i<n; i++) {
-		gamma_n += log(sampleNormal(0,1));
+		gamma_n += log(random());
 	}
 
 	double gamma = beta * (eps - gamma_n);
