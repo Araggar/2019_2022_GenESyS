@@ -33,6 +33,7 @@
 		virtual double random();
 		virtual double sampleBeta(double alpha, double beta, double infLimit, double supLimit);
 		virtual double sampleDiscrete(double acumProb, double value, ...);
+		virtual double sampleDiscrete(double acumProb, double *prob, double *value, int size);
 		virtual double sampleErlang(double mean, int M);
 		virtual double sampleExponential(double mean);
 		virtual double sampleGamma(double mean, double alpha);
@@ -41,13 +42,13 @@
 		virtual double sampleTriangular(double min, double mode, double max);
 		virtual double sampleUniform(double min, double max);
 		virtual double sampleWeibull(double alpha, double scale);
-		virtual double sampleGumbellInv(double mode, double scale);
 		virtual double sampleGumbell(double mode, double scale);
-		virtual double sampleChiSqrt(double degrees);
-    virtual double sampleGammaPDF(int alpha, int beta);
-    virtual double sampleBetaPDF(int alpha, int beta);
-    virtual double sampleBinomial(int trials);
+	virtual double sampleGamma2(double alpha, double beta);
+	virtual double sampleBeta2(double alpha, double beta);
+    virtual double sampleBinomial(int trials, double p);
+    virtual double sampleBernoulli(double p);
     virtual double sampleGeometric(double p);
+	virtual double sampleCauchy(double loc, double scale);
 
 	public:
 		void reset(); ///< reinitialize seed and other parameters so (pseudo) random number sequence will be generated again.

@@ -12,6 +12,7 @@
  * 22/10/2019 old genesys code reinserted
  */
 
+#include <random>
 #include <cmath>
 #include <complex>
 #include <cassert>
@@ -30,10 +31,14 @@ void SamplerDefaultImpl1::reset() {
 }
 
 double SamplerDefaultImpl1::random() {
-	double module = (double) static_cast<DefaultImpl1RNG_Parameters*> (_param)->module;
-	_xi *= static_cast<DefaultImpl1RNG_Parameters*> (_param)->multiplier;
-	_xi -= std::trunc((double) _xi / module) * module;
-	return (double) _xi / (double) static_cast<DefaultImpl1RNG_Parameters*> (_param)->module;
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_real_distribution<> ud(0.0,1.0);
+	return ud(gen);
+	//double module = (double) static_cast<DefaultImpl1RNG_Parameters*> (_param)->module;
+	//_xi *= static_cast<DefaultImpl1RNG_Parameters*> (_param)->multiplier;
+	//_xi -= std::trunc((double) _xi / module) * module;
+	//return (double) _xi / (double) static_cast<DefaultImpl1RNG_Parameters*> (_param)->module;
 }
 
 double SamplerDefaultImpl1::sampleUniform(double min, double max) {
@@ -58,6 +63,12 @@ double SamplerDefaultImpl1::sampleErlang(double mean, int M) {
 double SamplerDefaultImpl1::sampleNormal(double mean, double stddev) {
 	double z = std::sqrt(-2 * std::log(random())) * std::cos(2 * M_PI * random());
 	return mean + stddev*z;
+}
+
+double SamplerDefaultImpl1::sampleCauchy(double loc, double scale) {
+	double x;
+	x = random();
+	return loc + scale*tan(M_PI*(x-0.5));
 }
 
 double SamplerDefaultImpl1::_gammaJonk(double alpha) {
@@ -152,20 +163,45 @@ double SamplerDefaultImpl1::sampleDiscrete(double acumProb, double value, ...) {
 	return 0.0;
 }
 
+double SamplerDefaultImpl1::sampleDiscrete(double acumProb, double *prob, double *value, int size) {
+	// \todo: to implement
+	double cdf = 0;
+	double x;
+	x = random();
+
+	for (int i = 0; i < size; i++) {
+		cdf += prob[i]/acumProb;
+		if (x <= cdf) {
+			return value[i];
+		}
+	}
+	return value[size-1];
+}
+
 /* Discrete Distributions: Binomal and Geometric */
 
-double SamplerDefaultImpl1::sampleBinomial(int trials){
+double SamplerDefaultImpl1::sampleBinomial(int trials, double p){
 	double binomial = 0.0;
 	double U;
 
 	for(int i = 0; i < trials; i++){
-		U = sampleUniform(0.0, 1.0);
-		if(U < 0.5){
+		U = random();
+		if(U < p){
 			binomial += 1.0;
 		}
 	}
 
 	return binomial;
+}
+
+double SamplerDefaultImpl1::sampleBernoulli(double p){
+	double U;
+
+	U = random();
+	if(U <= p){
+		return 1.0;
+	}
+	return 0.0;
 }
 
 double SamplerDefaultImpl1::sampleGeometric(double p){
@@ -176,56 +212,53 @@ double SamplerDefaultImpl1::sampleGeometric(double p){
 }
 
 
-double SamplerDefaultImpl1::sampleGumbellInv(double mode, double scale) {
+double SamplerDefaultImpl1::sampleGumbell(double mode, double scale) {
 	double x;
 	x = random();
 	return mode - (scale * log(-log(x)));
 }
 
-double SamplerDefaultImpl1::sampleGumbell(double mode, double scale) {
-	double x;
-	x = random();
-	return exp(-exp(-(x-mode)/scale));
+double SamplerDefaultImpl1::sampleBeta2(double alpha, double beta) {
+
+	double x = sampleGamma2(alpha,1);
+	double y = sampleGamma2(beta,1);
+	return x/(x+y);
+
 }
 
-double SamplerDefaultImpl1::sampleChiSqrt(double degrees) {
-	double chi2, z;
-	chi2 = 0;
-	for (int i=0; i < degrees; i++) {
-		z = sampleNormal(0,1);
-		chi2 = chi2 + (z*z);
+double SamplerDefaultImpl1::sampleGamma2(double alpha, double beta) {
+    double u,v,w,delta;
+	double eps;
+	double nt;	
+	int n;
+
+	n = floor(alpha);
+	delta = alpha - n;
+
+	while (1) {
+		u = random();
+		v = random();
+		w = random();
+		if (u <= (M_E/(M_E+delta))) {
+			eps = pow(v,1/delta);
+			nt = w*pow(eps,delta-1);
+		} else {
+			eps = 1 - log(v);
+			nt = w*exp(-eps);
+		}
+		if (nt > (pow(eps,delta-1)*exp(-eps))) {
+			continue;
+		}
+		break;
+	}	
+	double gamma_n = 0;
+	for (int i = 0; i<n; i++) {
+		gamma_n += log(random());
 	}
-	return chi2;
-}
 
-double SamplerDefaultImpl1::gammaFunction(int n) {
-  int fact = n - 1;
+	double gamma = beta * (eps - gamma_n);
 
-	if (fact == 0) {
-		return 1;
-	}
-
-	for (int i = (fact - 1); i > 1; i--) {
-	    fact *= i;
-	}
-}
-
-double SamplerDefaultImpl1::sampleGammaPDF(int alpha, int beta) {
-    double x;
-    x = random();
-
-    return (pow(beta,alpha)*pow(x,alpha-1)*exp(-beta*x))/gammaFunction(alpha);
-}
-
-double SamplerDefaultImpl1::betaFunction(int y, int x) {
-    return gammaFunction(x)*gammaFunction(y)/gammaFunction(x+y);
-}
-
-double SamplerDefaultImpl1::sampleBetaPDF(int alpha, int beta) {
-    double x;
-    x = random();
-
-    return (pow(x,alpha-1)*pow(1-x, beta-1))/betaFunction(alpha, beta);
+	return gamma;
 }
 
 void SamplerDefaultImpl1::setRNGparameters(Sampler_if::RNG_Parameters * param) {
