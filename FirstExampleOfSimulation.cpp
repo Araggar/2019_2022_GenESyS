@@ -108,11 +108,11 @@ int FirstExampleOfSimulation::main(int argc, char** argv) {
 
 	//sampler.reset();
 
-	//file.open("Gamma(2,5)-Output");
-	//for (int i = 0; i < 1000; i++) {
-	//	file << sampler.sampleGammaPDF(2,5) << std::endl;
-	//}
-	//file.close();
+	file.open("GammaOriginal(2,5)-Output");
+	for (int i = 0; i < 1000; i++) {
+		file << sampler.sampleGamma(2,5) << std::endl;
+	}
+	file.close();
 
 	// Binomial & std::binomial_distribution
 	sampler.reset();
