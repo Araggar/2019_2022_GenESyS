@@ -157,10 +157,13 @@ double SamplerDefaultImpl1::sampleDiscrete(double acumProb, double value, ...) {
 
 double SamplerDefaultImpl1::sampleBinomial(int trials){
 	double binomial = 0.0;
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_real_distribution<> dis(0,1);
 	double U;
 
 	for(int i = 0; i < trials; i++){
-		U = sampleUniform(0.0, 1.0);
+		U = dis(gen);
 		if(U < 0.5){
 			binomial += 1.0;
 		}

@@ -66,9 +66,17 @@ int FirstExampleOfSimulation::main(int argc, char** argv) {
 
 	// Binomial & std::binomial_distribution
 	sampler.reset();
-	file.open("sampleBinomial(10)-Output");
+	file.open("sampleBinomial(15)-Output");
 		for(int i = 0; i < 1000; i++){
 		file << sampler.sampleBinomial(15) << std::endl;
+	}
+	file.close();
+	
+	sampler.reset();
+	std::binomial_distribution<> bd(15);
+	file.open("sampleSTDBinomial(15)-Output");
+		for(int i = 0; i < 1000; i++){
+		file << bd(gen) << std::endl;
 	}
 	file.close();
 
