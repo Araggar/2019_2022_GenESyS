@@ -83,6 +83,14 @@ int FirstExampleOfSimulation::main(int argc, char** argv) {
 	}
 	file.close();
 	
+	// Cauchy
+	sampler.reset();
+	file.open("Cauchy(-2,1)-Output");
+	for (int i = 0; i < 1000; i++) {
+		file << sampler.sampleCauchy(-2,1) << std::endl;
+	}
+	file.close();
+	
 //	sampler.reset();
 //	std::bernoulli_distribution berd(0.2);
 //	file.open("StdBernoulli(0.2)-Output");

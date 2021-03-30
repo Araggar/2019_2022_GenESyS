@@ -48,6 +48,7 @@
     virtual double sampleBinomial(int trials, double p);
     virtual double sampleBernoulli(double p);
     virtual double sampleGeometric(double p);
+	virtual double sampleCauchy(double loc, double scale);
 
 	public:
 		void reset(); ///< reinitialize seed and other parameters so (pseudo) random number sequence will be generated again.
