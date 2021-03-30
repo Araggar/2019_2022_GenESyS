@@ -120,9 +120,9 @@ int FirstExampleOfSimulation::main(int argc, char** argv) {
 	}
 	file.close();
 
-	file.open("Gamma(2.5,2)-Output");
+	file.open("Gamma(0.5,1)-Output");
 	for (int i = 0; i < 1000; i++) {
-		file << sampler.sampleGamma2(2,5,2) << std::endl;
+		file << sampler.sampleGamma2(0,0.5,1) << std::endl;
 	}
 	file.close();
 
