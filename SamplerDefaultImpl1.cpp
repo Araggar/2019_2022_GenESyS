@@ -31,10 +31,13 @@ void SamplerDefaultImpl1::reset() {
 }
 
 double SamplerDefaultImpl1::random() {
-	double module = (double) static_cast<DefaultImpl1RNG_Parameters*> (_param)->module;
-	_xi *= static_cast<DefaultImpl1RNG_Parameters*> (_param)->multiplier;
-	_xi -= std::trunc((double) _xi / module) * module;
-	return (double) _xi / (double) static_cast<DefaultImpl1RNG_Parameters*> (_param)->module;
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	return gen();
+	//double module = (double) static_cast<DefaultImpl1RNG_Parameters*> (_param)->module;
+	//_xi *= static_cast<DefaultImpl1RNG_Parameters*> (_param)->multiplier;
+	//_xi -= std::trunc((double) _xi / module) * module;
+	//return (double) _xi / (double) static_cast<DefaultImpl1RNG_Parameters*> (_param)->module;
 }
 
 double SamplerDefaultImpl1::sampleUniform(double min, double max) {
@@ -244,17 +247,45 @@ double SamplerDefaultImpl1::gammaFunction(int n) {
 	if (fact == 0) {
 		return 1;
 	}
-
 	for (int i = (fact - 1); i > 1; i--) {
 	    fact *= i;
 	}
 }
 
-double SamplerDefaultImpl1::sampleGammaPDF(int alpha, int beta) {
-    double x;
-    x = random();
+double SamplerDefaultImpl1::sampleGamma2(int n, double delta, double beta) {
+    double u,v,w;
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_real_distribution<> dis(0,1);
 
-    return (pow(beta,alpha)*pow(x,alpha-1)*exp(-beta*x))/gammaFunction(alpha);
+	double eps;
+	double nt;	
+
+
+	while (1) {
+		u = dis(gen);
+		v = dis(gen);
+		w = dis(gen);
+		if (u <= (M_E/(M_E+delta))) {
+			eps = pow(v,1/delta);
+			nt = w*pow(eps,delta-1);
+		} else {
+			eps = 1 - log(v);
+			nt = w*exp(-eps);
+		}
+		if (nt > (pow(eps,delta-1)*exp(-eps))) {
+			continue;
+		}
+		break;
+	}	
+	double gamma_n = 0;
+	for (int i = 0; i<n; i++) {
+		gamma_n += log(dis(gen));
+	}
+
+	double gamma = beta * (eps - gamma_n);
+
+	return gamma;
 }
 
 double SamplerDefaultImpl1::betaFunction(int y, int x) {

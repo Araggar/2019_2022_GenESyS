@@ -108,9 +108,21 @@ int FirstExampleOfSimulation::main(int argc, char** argv) {
 
 	//sampler.reset();
 
-	file.open("GammaOriginal(2,5)-Output");
+	file.open("Gamma(2,2)-Output");
 	for (int i = 0; i < 1000; i++) {
-		file << sampler.sampleGamma(2,5) << std::endl;
+		file << sampler.sampleGamma2(2,0,2) << std::endl;
+	}
+	file.close();
+
+	file.open("Gamma(2,5)-Output");
+	for (int i = 0; i < 1000; i++) {
+		file << sampler.sampleGamma2(2,0,5) << std::endl;
+	}
+	file.close();
+
+	file.open("Gamma(2.5,2)-Output");
+	for (int i = 0; i < 1000; i++) {
+		file << sampler.sampleGamma2(2,5,2) << std::endl;
 	}
 	file.close();
 
