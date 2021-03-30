@@ -85,9 +85,9 @@ int FirstExampleOfSimulation::main(int argc, char** argv) {
 	
 	// Cauchy
 	sampler.reset();
-	file.open("Cauchy(-2,1)-Output");
+	file.open("Cauchy(0,2)-Output");
 	for (int i = 0; i < 1000; i++) {
-		file << sampler.sampleCauchy(-2,1) << std::endl;
+		file << sampler.sampleCauchy(0,2) << std::endl;
 	}
 	file.close();
 	
