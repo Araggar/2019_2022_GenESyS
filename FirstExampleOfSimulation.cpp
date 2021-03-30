@@ -72,6 +72,23 @@ int FirstExampleOfSimulation::main(int argc, char** argv) {
 		file << berd(gen) << std::endl;
 	}
 	file.close();
+	
+	// Discrete
+	sampler.reset();
+	file.open("Discrete(10, [4,1,2,3],4)-Output");
+	double values[4] = {1,2,3,4};
+	for (int i = 0; i < 1000; i++) {
+		file << sampler.sampleDiscrete(10,values,4) << std::endl;
+	}
+	file.close();
+	
+//	sampler.reset();
+//	std::bernoulli_distribution berd(0.2);
+//	file.open("StdBernoulli(0.2)-Output");
+//	for (int i = 0; i < 1000; i++) {
+//		file << berd(gen) << std::endl;
+//	}
+//	file.close();
 
 	//sampler.reset();
 	//file.open("Beta(2,5)-Output");

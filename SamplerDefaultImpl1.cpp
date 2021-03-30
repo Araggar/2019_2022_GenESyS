@@ -148,9 +148,21 @@ double SamplerDefaultImpl1::sampleTriangular(double min, double mode, double max
 		return max - sqrt(Part2 * Full * (1.0 - R));
 }
 
-double SamplerDefaultImpl1::sampleDiscrete(double acumProb, double value, ...) {
+double SamplerDefaultImpl1::sampleDiscrete(double acumProb, double *value, int size) {
 	// \todo: to implement
-	return 0.0;
+
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_real_distribution<> dis(0,1);
+	double x;
+	x = dis(gen);
+
+	for (int i = 0; i < size; i++) {
+		if (x <= value[i]/acumProb) {
+			return value[i];
+		}
+	}
+	return value[size-1];
 }
 
 /* Discrete Distributions: Binomal and Geometric */
