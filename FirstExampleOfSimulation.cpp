@@ -102,7 +102,7 @@ int FirstExampleOfSimulation::main(int argc, char** argv) {
 	sampler.reset();
 	file.open("Beta(0.5,0.5)-Output");
 	for (int i = 0; i < 1000; i++) {
-		file << sampler.sampleBeta2(0.5,0.5) << std::endl;
+		file << sampler.sampleBeta2(0.5,2) << std::endl;
 	}
 	file.close();
 
