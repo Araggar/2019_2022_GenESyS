@@ -220,8 +220,8 @@ double SamplerDefaultImpl1::sampleGumbell(double mode, double scale) {
 
 double SamplerDefaultImpl1::sampleBeta2(double alpha, double beta) {
 
-	double x = sampleGamma(alpha,1);
-	double y = sampleGamma(beta,1);
+	double x = sampleGamma2(alpha,1);
+	double y = sampleGamma2(beta,1);
 	return x/(x+y);
 
 }

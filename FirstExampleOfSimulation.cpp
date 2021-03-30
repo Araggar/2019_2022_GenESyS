@@ -106,6 +106,13 @@ int FirstExampleOfSimulation::main(int argc, char** argv) {
 	}
 	file.close();
 
+	sampler.reset();
+	file.open("Beta(2,5)-Output");
+	for (int i = 0; i < 1000; i++) {
+		file << sampler.sampleBeta2(2,5) << std::endl;
+	}
+	file.close();
+
 	//sampler.reset();
 
 	file.open("Gamma(2.5,2)-Output");
