@@ -164,7 +164,6 @@ double SamplerDefaultImpl1::sampleDiscrete(double acumProb, double value, ...) {
 }
 
 double SamplerDefaultImpl1::sampleDiscrete(double acumProb, double *prob, double *value, int size) {
-	// \todo: to implement
 	double cdf = 0;
 	double x;
 	x = random();
@@ -177,8 +176,6 @@ double SamplerDefaultImpl1::sampleDiscrete(double acumProb, double *prob, double
 	}
 	return value[size-1];
 }
-
-/* Discrete Distributions: Binomal and Geometric */
 
 double SamplerDefaultImpl1::sampleBinomial(int trials, double p){
 	double binomial = 0.0;
@@ -227,9 +224,9 @@ double SamplerDefaultImpl1::sampleBeta2(double alpha, double beta) {
 }
 
 double SamplerDefaultImpl1::sampleGamma2(double alpha, double beta) {
-    double u,v,w,delta;
+  double u,v,w,delta;
 	double eps;
-	double nt;	
+	double nt;
 	int n;
 
 	n = floor(alpha);
@@ -250,7 +247,8 @@ double SamplerDefaultImpl1::sampleGamma2(double alpha, double beta) {
 			continue;
 		}
 		break;
-	}	
+	}
+
 	double gamma_n = 0;
 	for (int i = 0; i<n; i++) {
 		gamma_n += log(random());
