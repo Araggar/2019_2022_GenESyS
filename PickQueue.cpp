@@ -21,7 +21,7 @@ ModelComponent* PickQueue::LoadInstance(Model* model, std::map<std::string, std:
 }
 
 void PickQueue::addQueue(Queue* queue) {
-  this->_list->setAtRank(queue, this->_list->size() + 1);
+  this->_list->insert(queue);
 }
 
 Queue* PickQueue::pickQueue() {
