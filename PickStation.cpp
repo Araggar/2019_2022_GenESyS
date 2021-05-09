@@ -44,10 +44,35 @@ void PickStation::setMinimum() {
 void PickStation::addStation(Station* station) {
 	this->_list->insert(station);
 	this->_listEnRoute->insert(0);
+	this->_listResource->insert(NULL);
+}
+
+void PickStation::addResource(Resource* resource, Station* station) {
+	for (unsigned int it = 0; it < this->_list->size(); it++){
+		if (station == this->_list->getAtRank(it)) {
+			this->_listResource->setAtRank(it, resource);
+		}
+	}
+}
+
+void PickStation::addQueue(Queue* queue, Station* station) {
+	for (unsigned int it = 0; it < this->_list->size(); it++){
+		if (station == this->_list->getAtRank(it)) {
+			this->_listQueue->setAtRank(it, queue);
+		}
+	}
 }
 
 void PickStation::setSelectionEnRoute() {
 	this->selection = 1;
+}
+
+void PickStation::setSelectionResource() {
+	this->selection = 2;
+}
+
+void PickStation::setSelectionQueue() {
+	this->selection = 4;
 }
 
 Station* PickStation::pickEnRoute() {
@@ -62,6 +87,30 @@ Station* PickStation::pickEnRoute() {
 	return this->_list->getAtRank(chosen);
 }
 
+Station* PickStation::pickResource() {
+	assert (this->_list->size() == this->_listResource->size());
+	unsigned int chosen = 0;
+	for (unsigned int it = 1; it < this->_list->size(); it++) {
+		if (this->_listResource->getAtRank(chosen)->getNumberBusy() > this->_listResource->getAtRank(it)->getNumberBusy()) {
+			chosen = it;
+		}
+	}
+	_parentModel->getTracer()->trace(Util::TraceLevel::L5_arrival, "Resource \"" + std::to_string(this->_listResource->getAtRank(chosen)->getNumberBusy()) + "\"");
+	return this->_list->getAtRank(chosen);
+}
+
+Station* PickStation::pickQueue() {
+	assert (this->_list->size() == this->_listQueue->size());
+	unsigned int chosen = 0;
+	for (unsigned int it = 1; it < this->_list->size(); it++) {
+		if (this->_listQueue->getAtRank(chosen)->size() > this->_listQueue->getAtRank(it)->size()) {
+			chosen = it;
+		}
+	}
+	_parentModel->getTracer()->trace(Util::TraceLevel::L5_arrival, "Queue \"" + std::to_string(this->_listQueue->getAtRank(chosen)->size()) + "\"");
+	return this->_list->getAtRank(chosen);
+}
+
 void PickStation::_execute(Entity* entity) {
 	assert(!_list->empty());
 	Station* chosen;
@@ -69,6 +118,12 @@ void PickStation::_execute(Entity* entity) {
 	switch (this->selection) {
 		case 1 :
 			chosen = pickEnRoute();
+			break;
+		case 2 :
+			chosen = pickResource();
+			break;
+		case 4 :
+			chosen = pickQueue();
 			break;
 	}
 
