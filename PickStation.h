@@ -80,6 +80,7 @@ public: // static
 	void setSelectionEnRoute();
 	void setSelectionResource();
 	void setSelectionQueue();
+	void setTimeDelay(double delay);
 protected: // virtual
 	virtual void _execute(Entity* entity);
 	virtual void _initBetweenReplications();
@@ -93,6 +94,7 @@ private: // methods
 private: // attributes 1:1
 	bool minimum = true;
 	unsigned int selection = 1;
+	double _delay = 0.0;
 private: // attributes 1:n
 	List<Station*>* _list = new List<Station*>();
 	List<Resource*>* _listResource = new List<Resource*>();

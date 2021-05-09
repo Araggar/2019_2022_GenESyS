@@ -75,17 +75,9 @@ void PickStation::setSelectionQueue() {
 	this->selection = 4;
 }
 
-//Station* PickStation::pickEnRoute() {
-//	unsigned int chosen = 0;
-//	for (unsigned int it = 1; it < this->_list->size(); it++) {
-//		if (this->_listEnRoute->getAtRank(chosen) > this->_listEnRoute->getAtRank(it)) {
-//			chosen = it;
-//		}
-//	}
-//	_parentModel->getTracer()->trace(Util::TraceLevel::L5_arrival, "EnRoute \"" + std::to_string(this->_listEnRoute->getAtRank(chosen)) + "\"");
-//	this->_listEnRoute->setAtRank(chosen, this->_listEnRoute->getAtRank(chosen) + 1);
-//	return this->_list->getAtRank(chosen);
-//}
+void PickStation::setTimeDelay(double delay) {
+	this->_delay = delay;
+}
 
 Station* PickStation::pickEnRoute() {
 	Station* chosen = this->_list->getAtRank(0);
@@ -141,7 +133,7 @@ void PickStation::_execute(Entity* entity) {
 
 	_parentModel->getTracer()->trace(Util::TraceLevel::L5_arrival, "Selected " + chosen->getName());
 	//this->_parentModel->sendEntityToComponent(entity, this->getNextComponents()->getFrontConnection(), 0.0);
-	this->_parentModel->sendEntityToComponent(entity, chosen->getEnterIntoStationComponent(), 0.0);
+	this->_parentModel->sendEntityToComponent(entity, chosen->getEnterIntoStationComponent(), this->_delay);
 	//this->_parentModel->sendEntityToComponent(entity, this->getNextComponents()->getFrontConnection(), 0.0);
 }
 
