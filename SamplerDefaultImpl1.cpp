@@ -12,7 +12,6 @@
  * 22/10/2019 old genesys code reinserted
  */
 
-#include <random>
 #include <cmath>
 #include <complex>
 #include <cassert>
@@ -31,14 +30,10 @@ void SamplerDefaultImpl1::reset() {
 }
 
 double SamplerDefaultImpl1::random() {
-	std::random_device rd;
-	std::mt19937 gen(rd());
-	std::uniform_real_distribution<> ud(0.0,1.0);
-	return ud(gen);
-	//double module = (double) static_cast<DefaultImpl1RNG_Parameters*> (_param)->module;
-	//_xi *= static_cast<DefaultImpl1RNG_Parameters*> (_param)->multiplier;
-	//_xi -= std::trunc((double) _xi / module) * module;
-	//return (double) _xi / (double) static_cast<DefaultImpl1RNG_Parameters*> (_param)->module;
+	double module = (double) static_cast<DefaultImpl1RNG_Parameters*> (_param)->module;
+	_xi *= static_cast<DefaultImpl1RNG_Parameters*> (_param)->multiplier;
+	_xi -= std::trunc((double) _xi / module) * module;
+	return (double) _xi / (double) static_cast<DefaultImpl1RNG_Parameters*> (_param)->module;
 }
 
 double SamplerDefaultImpl1::sampleUniform(double min, double max) {
@@ -155,102 +150,6 @@ double SamplerDefaultImpl1::sampleTriangular(double min, double mode, double max
 double SamplerDefaultImpl1::sampleDiscrete(double acumProb, double value, ...) {
 	// \todo: to implement
 	return 0.0;
-}
-
-double SamplerDefaultImpl1::sampleDiscrete(double acumProb, double *prob, double *value, int size) {
-	double cdf = 0;
-	double x;
-	x = random();
-
-	for (int i = 0; i < size; i++) {
-		cdf += prob[i]/acumProb;
-		if (x <= cdf) {
-			return value[i];
-		}
-	}
-	return value[size-1];
-}
-
-double SamplerDefaultImpl1::sampleBinomial(int trials, double p){
-	double binomial = 0.0;
-	double U;
-
-	for(int i = 0; i < trials; i++){
-		U = random();
-		if(U < p){
-			binomial += 1.0;
-		}
-	}
-
-	return binomial;
-}
-
-double SamplerDefaultImpl1::sampleBernoulli(double p){
-	double U;
-
-	U = random();
-	if(U <= p){
-		return 1.0;
-	}
-	return 0.0;
-}
-
-double SamplerDefaultImpl1::sampleGeometric(double p){
-	assert(p > 0 && p <= 1);
-	double rand = random();
-
-	return ceil(log(1-rand) / log(1-p));
-}
-
-
-double SamplerDefaultImpl1::sampleGumbell(double mode, double scale) {
-	double x;
-	x = random();
-	return mode - (scale * log(-log(x)));
-}
-
-double SamplerDefaultImpl1::sampleBeta2(double alpha, double beta) {
-
-	double x = sampleGamma2(alpha,1);
-	double y = sampleGamma2(beta,1);
-	return x/(x+y);
-
-}
-
-double SamplerDefaultImpl1::sampleGamma2(double alpha, double beta) {
-  double u,v,w,delta;
-	double eps;
-	double nt;
-	int n;
-
-	n = floor(alpha);
-	delta = alpha - n;
-
-	while (1) {
-		u = random();
-		v = random();
-		w = random();
-		if (u <= (M_E/(M_E+delta))) {
-			eps = pow(v,1/delta);
-			nt = w*pow(eps,delta-1);
-		} else {
-			eps = 1 - log(v);
-			nt = w*exp(-eps);
-		}
-		if (nt > (pow(eps,delta-1)*exp(-eps))) {
-			continue;
-		}
-		break;
-	}
-
-	double gamma_n = 0;
-	for (int i = 0; i<n; i++) {
-		gamma_n += log(random());
-	}
-
-	double gamma = beta * (eps - gamma_n);
-
-	return gamma;
 }
 
 void SamplerDefaultImpl1::setRNGparameters(Sampler_if::RNG_Parameters * param) {

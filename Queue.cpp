@@ -79,7 +79,7 @@ Queue::OrderRule Queue::getOrderRule() const {
 double Queue::sumAttributesFromWaiting(Util::identification attributeID) {
 	double sum = 0.0;
 	for (std::list<Waiting*>::iterator it = _list->list()->begin(); it != _list->list()->end(); it++) {
-		sum += (*it)->getEntity()->attributeValue(attributeID);
+		sum += (*it)->getEntity()->getAttributeValue(attributeID);
 	}
 	return sum;
 }
@@ -87,7 +87,7 @@ double Queue::sumAttributesFromWaiting(Util::identification attributeID) {
 double Queue::getAttributeFromWaitingRank(unsigned int rank, Util::identification attributeID) {
 	Waiting* wait = _list->getAtRank(rank);
 	if (wait != nullptr) {
-		return wait->getEntity()->attributeValue(attributeID);
+		return wait->getEntity()->getAttributeValue(attributeID);
 	}
 	return 0.0;
 }
@@ -111,8 +111,8 @@ bool Queue::_loadInstance(std::map<std::string, std::string>* fields) {
 	bool res = ModelElement::_loadInstance(fields);
 	if (res) {
 		try {
-			this->_attributeName = (*fields->find("attributeName")).second;
-			this->_orderRule = static_cast<OrderRule> (std::stoi((*fields->find("orderRule")).second));
+			this->_attributeName = LoadField(fields, "attributeName", DEFAULT.attributeName);
+			this->_orderRule = static_cast<OrderRule> (LoadField(fields, "orderRule", static_cast<int> (DEFAULT.orderRule)));
 		} catch (...) {
 		}
 	}
@@ -121,8 +121,8 @@ bool Queue::_loadInstance(std::map<std::string, std::string>* fields) {
 
 std::map<std::string, std::string>* Queue::_saveInstance() {
 	std::map<std::string, std::string>* fields = ModelElement::_saveInstance(); //Util::TypeOf<Queue>());
-	fields->emplace("orderRule", std::to_string(static_cast<int> (this->_orderRule)));
-	fields->emplace("attributeName", this->_attributeName);
+	SaveField(fields, "orderRule", static_cast<int> (this->_orderRule), static_cast<int> (DEFAULT.orderRule));
+	SaveField(fields, "attributeName", this->_attributeName, DEFAULT.attributeName);
 	return fields;
 }
 
@@ -133,8 +133,8 @@ bool Queue::_check(std::string* errorMessage) {
 void Queue::_createInternalElements() {
 	if (_reportStatistics) {
 		if (_cstatNumberInQueue == nullptr) {
-			_cstatNumberInQueue = new StatisticsCollector(_parentModel, _name + "." + "NumberInQueue", this); /* \todo: ++ WHY THIS INSERT "DISPOSE" AND "10ENTITYTYPE" STATCOLL ?? */
-			_cstatTimeInQueue = new StatisticsCollector(_parentModel, _name + "." + "TimeInQueue", this);
+			_cstatNumberInQueue = new StatisticsCollector(_parentModel, getName() + "." + "NumberInQueue", this); /* \todo: ++ WHY THIS INSERT "DISPOSE" AND "10ENTITYTYPE" STATCOLL ?? */
+			_cstatTimeInQueue = new StatisticsCollector(_parentModel, getName() + "." + "TimeInQueue", this);
 			_childrenElements->insert({"NumberInQueue", _cstatNumberInQueue});
 			_childrenElements->insert({"TimeInQueue", _cstatTimeInQueue});
 		}

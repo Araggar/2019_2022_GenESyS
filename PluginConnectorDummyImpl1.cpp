@@ -16,6 +16,7 @@
 // Model Components
 #include "Create.h"
 #include "Delay.h"
+#include "PickStation.h"
 #include "Dispose.h"
 #include "Seize.h"
 #include "Release.h"
@@ -44,7 +45,7 @@
 // #include "Signal.h"
 // #include "Store.h"
 // #include "PickStation.h"
-// #include "Sequence.h"
+#include "Sequence.h"
 // #include "Start.h"
 // #include "Stop.h"
 // #include "Unstore.h"
@@ -116,6 +117,8 @@
 		GetInfo = &Decide::GetPluginInformation;
 	else if (fn == "delay.so")
 		GetInfo = &Delay::GetPluginInformation;
+	else if (fn == "pickstation.so")
+		GetInfo = &PickStation::GetPluginInformation;
 	else if (fn == "dispose.so")
 		GetInfo = &Dispose::GetPluginInformation;
 	else if (fn == "dummy.so")
@@ -174,8 +177,8 @@
 	//		GetInfo = &Storage::GetPluginInformation;
 	//	else if (fn == "pickstation.so")
 	//		GetInfo = &PickStation::GetPluginInformation;
-	//	else if (fn == "sequence.so")
-	//		GetInfo = &Sequence::GetPluginInformation;
+	else if (fn == "sequence.so")
+		GetInfo = &Sequence::GetPluginInformation;
 	//	else if (fn == "access.so")
 	//		GetInfo = &Access::GetPluginInformation;
 	//	else if (fn == "exit.so")

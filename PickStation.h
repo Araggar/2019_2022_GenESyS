@@ -15,6 +15,8 @@
 #define PICKSTATION_H
 
 #include "ModelComponent.h"
+#include "List.h"
+#include "Station.h"
 
 /*!
  PickStation module
@@ -68,6 +70,9 @@ public: // virtual
 public: // static
 	static PluginInformation* GetPluginInformation();
 	static ModelComponent* LoadInstance(Model* model, std::map<std::string, std::string>* fields);
+	void setMaximum();
+	void setMinimum();
+	void addStation(Station* station);
 protected: // virtual
 	virtual void _execute(Entity* entity);
 	virtual void _initBetweenReplications();
@@ -75,8 +80,14 @@ protected: // virtual
 	virtual std::map<std::string, std::string>* _saveInstance();
 	virtual bool _check(std::string* errorMessage);
 private: // methods
+	Station* pickEnRoute();
+	void setSelectionEnRoute();
 private: // attributes 1:1
+	bool minimum = true;
+	unsigned int selection = 1;
 private: // attributes 1:n
+	List<Station*>* _list = new List<Station*>();
+	List<unsigned int>* _listEnRoute = new List<unsigned int>();
 };
 
 

@@ -25,18 +25,29 @@ int TestSimulationControlAndSimulationResponse::main(int argc, char** argv) {
 	Simulator* simulator = new Simulator();
 	TraceManager* tm = simulator->getTracer();
 	this->setDefaultTraceHandlers(tm);
-	tm->setTraceLevel(Util::TraceLevel::componentDetailed);
+	tm->setTraceLevel(Util::TraceLevel::L8_mostDetailed);
+	this->insertFakePluginsByHand(simulator);
 
+	simulator->getModels()->loadModel("./temp/forthExampleOfSimulation.txt");
+	Model* model = simulator->getModels()->current();
+	model->getSimulation()->start();
+	tm->trace("\nResponses:");
+	for (std::list<SimulationResponse*>::iterator it = model->getResponses()->list()->begin(); it != model->getResponses()->list()->end(); it++) {
+		tm->trace((*it)->getName() + ": " + std::to_string((*it)->getValue()));
+	}
+
+	/*
 	Model* model = new Model(simulator);
 	model->show();
 
-	std::cout << "NumRepl antes: " << model->getInfos()->getNumberOfReplications() << std::endl;
+	std::cout << "NumRepl antes: " << model->getSimulation()->getNumberOfReplications() << std::endl;
 	model->getInfos()->setNumberOfReplications(10);
-	std::cout << "NumRepl depois: " << model->getInfos()->getNumberOfReplications() << std::endl;
+	std::cout << "NumRepl depois: " << model->getSimulation()->getNumberOfReplications() << std::endl;
 	SimulationControl* control = model->getControls()->front();
 	std::cout << control->getName() << " antes: " << control->getValue() << std::endl;
 	control->setValue(20);
 	std::cout << control->getName() << " depois: " << control->getValue() << std::endl;
-	std::cout << "NumRepl depois: " << model->getInfos()->getNumberOfReplications() << std::endl;
+	std::cout << "NumRepl depois: " << model->getSimulation()->getNumberOfReplications() << std::endl;
+	 */
 	return 0;
 }

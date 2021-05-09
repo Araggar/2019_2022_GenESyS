@@ -83,6 +83,7 @@
 		 * PRIVATE
 		 */
 	private:
+		void _showConnections() const;
 		void _showComponents() const;
 		void _showElements() const;
 		void _showSimulationControls() const;
@@ -90,6 +91,7 @@
 		void _createModelInternalElements();
 	private:
 		bool _hasChanged = false;
+		bool _isChecked = false; // \todo: Not implemented yet. First, _hasChanged should be trustful
 	private: // read only public access (gets)
 		Util::identification _id;
 		Simulator* _parentSimulator; /*! The parente of the model */
