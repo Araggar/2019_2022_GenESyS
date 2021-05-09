@@ -43,8 +43,8 @@ void PickStation::setMinimum() {
 
 void PickStation::addStation(Station* station) {
 	this->_list->insert(station);
-	this->_listEnRoute->insert(0);
 	this->_listResource->insert(NULL);
+	this->_listQueue->insert(NULL);
 }
 
 void PickStation::addResource(Resource* resource, Station* station) {
@@ -75,16 +75,28 @@ void PickStation::setSelectionQueue() {
 	this->selection = 4;
 }
 
+//Station* PickStation::pickEnRoute() {
+//	unsigned int chosen = 0;
+//	for (unsigned int it = 1; it < this->_list->size(); it++) {
+//		if (this->_listEnRoute->getAtRank(chosen) > this->_listEnRoute->getAtRank(it)) {
+//			chosen = it;
+//		}
+//	}
+//	_parentModel->getTracer()->trace(Util::TraceLevel::L5_arrival, "EnRoute \"" + std::to_string(this->_listEnRoute->getAtRank(chosen)) + "\"");
+//	this->_listEnRoute->setAtRank(chosen, this->_listEnRoute->getAtRank(chosen) + 1);
+//	return this->_list->getAtRank(chosen);
+//}
+
 Station* PickStation::pickEnRoute() {
-	unsigned int chosen = 0;
+	Station* chosen = this->_list->getAtRank(0);
 	for (unsigned int it = 1; it < this->_list->size(); it++) {
-		if (this->_listEnRoute->getAtRank(chosen) > this->_listEnRoute->getAtRank(it)) {
-			chosen = it;
+		if (chosen->getNumberInStation() > this->_list->getAtRank(it)->getNumberInStation()) {
+			chosen = this->_list->getAtRank(it);
 		}
 	}
-	_parentModel->getTracer()->trace(Util::TraceLevel::L5_arrival, "EnRoute \"" + std::to_string(this->_listEnRoute->getAtRank(chosen)) + "\"");
-	this->_listEnRoute->setAtRank(chosen, this->_listEnRoute->getAtRank(chosen) + 1);
-	return this->_list->getAtRank(chosen);
+	_parentModel->getTracer()->trace(Util::TraceLevel::L5_arrival, "EnRoute \"" + std::to_string(chosen->getNumberInStation()) + "\"");
+	//this->_listEnRoute->setAtRank(chosen, this->_listEnRoute->getAtRank(chosen) + 1);
+	return chosen;
 }
 
 Station* PickStation::pickResource() {

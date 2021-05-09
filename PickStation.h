@@ -97,7 +97,6 @@ private: // attributes 1:n
 	List<Station*>* _list = new List<Station*>();
 	List<Resource*>* _listResource = new List<Resource*>();
 	List<Queue*>* _listQueue = new List<Queue*>();
-	List<unsigned int>* _listEnRoute = new List<unsigned int>();
 };
 
 

@@ -39,6 +39,10 @@ void Station::initBetweenReplications() {
 
 }
 
+unsigned int Station::getNumberInStation() {
+	return _numberInStation;
+}
+
 void Station::enter(Entity* entity) {
 	std::string attributeName = "Entity.ArrivalAt" + this->getName();
 	trimwithin(attributeName);
