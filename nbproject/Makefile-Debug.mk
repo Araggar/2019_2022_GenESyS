@@ -115,6 +115,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Schedule.o \
 	${OBJECTDIR}/SeizableItemRequest.o \
 	${OBJECTDIR}/Seize.o \
+	${OBJECTDIR}/PickQueue.o \
 	${OBJECTDIR}/Sequence.o \
 	${OBJECTDIR}/Set.o \
 	${OBJECTDIR}/Signal.o \
@@ -572,6 +573,11 @@ ${OBJECTDIR}/Seize.o: Seize.cpp nbproject/Makefile-${CND_CONF}.mk
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Seize.o Seize.cpp
+
+${OBJECTDIR}/PickQueue.o: PickQueue.cpp nbproject/Makefile-${CND_CONF}.mk
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/PickQueue.o PickQueue.cpp
 
 ${OBJECTDIR}/Sequence.o: Sequence.cpp nbproject/Makefile-${CND_CONF}.mk
 	${MKDIR} -p ${OBJECTDIR}

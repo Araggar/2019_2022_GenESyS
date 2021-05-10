@@ -17,6 +17,7 @@
 #include "Create.h"
 #include "Delay.h"
 #include "PickStation.h"
+#include "PickQueue.h"
 #include "Dispose.h"
 #include "Seize.h"
 #include "Release.h"
@@ -119,6 +120,8 @@
 		GetInfo = &Delay::GetPluginInformation;
 	else if (fn == "pickstation.so")
 		GetInfo = &PickStation::GetPluginInformation;
+	else if (fn == "pickqueue.so")
+		GetInfo = &PickQueue::GetPluginInformation;
 	else if (fn == "dispose.so")
 		GetInfo = &Dispose::GetPluginInformation;
 	else if (fn == "dummy.so")

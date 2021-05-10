@@ -32,6 +32,8 @@
 //#include "Station.h"
 #include "Attribute.h"
 
+#include "PickQueue.h"
+
 Modelo_SistemaOperacional02::Modelo_SistemaOperacional02() {
 }
 
@@ -63,7 +65,12 @@ int Modelo_SistemaOperacional02::main(int argc, char** argv) {
 	// SEIZE memoria
 	Resource* memoria = new Resource(model, "memoria");
 	memoria->setCapacity(64);
+
 	Queue* queueMem = new Queue(model, "Fila_Alocacao_Memoria");
+	Queue* queueMem2 = new Queue(model, "Fila_Alocacao_Memoria2");
+
+	//PickQueue* pickQueue = new PickQueue(model, "PickQueue 1");
+
 	Seize* seizeMem = new Seize(model);
 	seizeMem->setDescription("Processo aloca memória");
 	seizeMem->setQueue(queueMem);

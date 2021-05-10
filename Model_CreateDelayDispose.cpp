@@ -26,6 +26,8 @@
 #include "Route.h"
 #include "Enter.h"
 #include "PickStation.h"
+#include "Queue.h"
+#include "PickQueue.h"
 
 // Model model
 #include "EntityType.h"
@@ -58,23 +60,28 @@ int Model_CreateDelayDispose::main(int argc, char** argv) {
 	Create* create1 = new Create(model);
 
 	
-	Station* station1 = new Station(model, "Station 1");
-	Station* station2 = new Station(model, "Station 2");
+	//Station* station1 = new Station(model, "Station 1");
+	//Station* station2 = new Station(model, "Station 2");
+	//
+	//PickQueue* ps = new PickQueue(model);
+	//ps->addStation(station1);
+	//ps->addStation(station2);
 	
-	PickStation* ps = new PickStation(model);
-	ps->addStation(station1);
-	ps->addStation(station2);
-
 	//Route* route1 = new Route(model);	
 	//route1->setStation(station1);
+	Queue* queue1 = new Queue(model, "Queue 1");
+	Queue* queue2 = new Queue(model, "Queue 2");
+	PickQueue* pq = new PickQueue(model, "PickQueue");
+	pq->addQueue(queue1);
+	pq->addQueue(queue2);
 
-	Enter* enter1 = new Enter(model);
-	enter1->setStation(station1);	
-	enter1->setDescription("Enter1 Desc");
+	//Enter* enter1 = new Enter(model);
+	//enter1->setStation(station1);	
+	//enter1->setDescription("Enter1 Desc");
 
-	Enter* enter2 = new Enter(model);
-	enter2->setStation(station2);	
-	enter2->setDescription("Enter2 Desc");
+	//Enter* enter2 = new Enter(model);
+	//enter2->setStation(station2);	
+	//enter2->setDescription("Enter2 Desc");
 	
 	create1->setEntityType(entityType1);
 	create1->setTimeBetweenCreationsExpression("1.5"); // create one new entity every 1.5 seconds
@@ -86,11 +93,13 @@ int Model_CreateDelayDispose::main(int argc, char** argv) {
 	Dispose* dispose1 = new Dispose(model); // insert the component into the model
 	// connect model components to create a "workflow" -- should always start from a SourceModelComponent and end at a SinkModelComponent (it will be checked)
 	
-	enter1->getNextComponents()->insert(delay1);
-	enter2->getNextComponents()->insert(delay1);
+	//enter1->getNextComponents()->insert(delay1);
 
-	create1->getNextComponents()->insert(ps);
-	ps->getNextComponents()->insert(delay1);
+	//enter2->getNextComponents()->insert(delay1);
+
+	create1->getNextComponents()->insert(pq);
+	pq->getNextComponents()->insert(delay1);
+	//pq->getNextComponents()->insert(delay1);
 	delay1->getNextComponents()->insert(dispose1);
 	//enter1->getNextComponents()->insert(dispose1);
 	//enter1->getNextComponents()->insert(ps);

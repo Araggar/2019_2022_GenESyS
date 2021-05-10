@@ -183,6 +183,8 @@
         <itemPath>Route.h</itemPath>
         <itemPath>Seize.cpp</itemPath>
         <itemPath>Seize.h</itemPath>
+        <itemPath>PickQueue.cpp</itemPath>
+        <itemPath>PickQueue.h</itemPath>
         <itemPath>Signal.cpp</itemPath>
         <itemPath>Signal.h</itemPath>
         <itemPath>Submodel.cpp</itemPath>
@@ -726,6 +728,10 @@
       <item path="Seize.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Seize.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="PickQueue.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="PickQueue.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Sequence.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -1280,6 +1286,10 @@
       <item path="Seize.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Seize.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="PickQueue.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="PickQueue.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Sequence.cpp" ex="false" tool="1" flavor2="0">
       </item>
