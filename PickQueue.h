@@ -19,6 +19,7 @@
 #include "Station.h"
 #include "Resource.h"
 #include "Queue.h"
+#include "SamplerDefaultImpl1.h"
 
 /*!
  PickQueue module
@@ -105,6 +106,7 @@ private: // attributes 1:1
 	bool minimum = true;
 	unsigned int selection = 0;
 	int currentQ = 0;
+	SamplerDefaultImpl1 sampler;
 private: // attributes 1:n
 	List<Queue*>* _listQueue = new List<Queue*>();
 };

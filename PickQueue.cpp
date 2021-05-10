@@ -12,12 +12,12 @@
  */
 
 #include "PickQueue.h"
-#include "SamplerDefaultImpl1.h"
 
 #include "Model.h"
 #include <assert.h>
 
 PickQueue::PickQueue(Model* model, std::string name) : ModelComponent(model, Util::TypeOf<PickQueue>(), name) {
+	sampler = SamplerDefaultImpl1();
 }
 
 std::string PickQueue::show() {
@@ -92,7 +92,8 @@ Queue* PickQueue::pickCyc() {
 
 Queue* PickQueue::pickRandom() {
 	SamplerDefaultImpl1 sampler = SamplerDefaultImpl1();
-	unsigned int chosen = sampler.sampleUniform(0, this->_listQueue->size() - 1);
+	unsigned int chosen = this->sampler.sampleUniform(0, this->_listQueue->size());
+	_parentModel->getTracer()->trace(Util::TraceLevel::L5_arrival, "Queue \"" + std::to_string(chosen) + "\"");
 	return this->_listQueue->getAtRank(chosen);
 }
 

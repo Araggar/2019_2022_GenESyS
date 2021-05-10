@@ -79,7 +79,11 @@ int Model_CreateDelayDispose::main(int argc, char** argv) {
 	pq->addQueue(queue3);
 	pq->addQueue(queue4);
 
-	pq->setCyc();
+	//pq->setCyc();
+	pq->setRandom();
+
+
+
 	//Enter* enter1 = new Enter(model);
 	//enter1->setStation(station1);	
 	//enter1->setDescription("Enter1 Desc");
