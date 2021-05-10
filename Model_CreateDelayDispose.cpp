@@ -71,10 +71,15 @@ int Model_CreateDelayDispose::main(int argc, char** argv) {
 	//route1->setStation(station1);
 	Queue* queue1 = new Queue(model, "Queue 1");
 	Queue* queue2 = new Queue(model, "Queue 2");
+	Queue* queue3 = new Queue(model, "Queue 3");
+	Queue* queue4 = new Queue(model, "Queue 4");
 	PickQueue* pq = new PickQueue(model, "PickQueue");
 	pq->addQueue(queue1);
 	pq->addQueue(queue2);
+	pq->addQueue(queue3);
+	pq->addQueue(queue4);
 
+	pq->setCyc();
 	//Enter* enter1 = new Enter(model);
 	//enter1->setStation(station1);	
 	//enter1->setDescription("Enter1 Desc");

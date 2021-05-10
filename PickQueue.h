@@ -75,6 +75,17 @@ public: // static
 	void setMaximum();
 	void setMinimum();
 	void addQueue(Queue* queue);
+
+	void setCyc();
+	void setRandom();
+	void setPOR();
+	void setLNQ();
+	void setSNQ();
+	void setLRC();
+	void setSRC();
+	void setExpression();
+
+
 protected: // virtual
 	virtual void _execute(Entity* entity);
 	virtual void _initBetweenReplications();
@@ -82,10 +93,18 @@ protected: // virtual
 	virtual std::map<std::string, std::string>* _saveInstance();
 	virtual bool _check(std::string* errorMessage);
 private: // methods
-	Queue* pickQueue();
+	Queue* pickCyc();
+	Queue* pickRandom();
+	Queue* pickPOR();
+	Queue* pickLNQ();
+	Queue* pickSNQ();
+	Queue* pickLRC();
+	Queue* pickSRC();
+	Queue* pickExpression();
 private: // attributes 1:1
 	bool minimum = true;
-	unsigned int selection = 1;
+	unsigned int selection = 0;
+	int currentQ = 0;
 private: // attributes 1:n
 	List<Queue*>* _listQueue = new List<Queue*>();
 };

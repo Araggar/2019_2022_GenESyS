@@ -12,6 +12,7 @@
  */
 
 #include "PickQueue.h"
+#include "SamplerDefaultImpl1.h"
 
 #include "Model.h"
 #include <assert.h>
@@ -45,8 +46,32 @@ void PickQueue::addQueue(Queue* queue) {
 	this->_listQueue->insert(queue);
 }
 
-Queue* PickQueue::pickQueue() {
-	assert (!this->_listQueue->empty());
+void PickQueue::setSNQ() {
+	this->selection = 0;
+}
+void PickQueue::setCyc(){
+	this->selection = 1;
+}
+void PickQueue::setRandom(){
+	this->selection = 2;
+}
+void PickQueue::setPOR(){
+	this->selection = 3;
+}
+void PickQueue::setLNQ(){
+	this->selection = 4;
+}
+void PickQueue::setLRC(){
+	this->selection = 5;
+}
+void PickQueue::setSRC(){
+	this->selection = 6;
+}
+void PickQueue::setExpression(){
+	this->selection = 7;
+}
+
+Queue* PickQueue::pickSNQ() {
 	unsigned int chosen = 0;
 	for (unsigned int it = 1; it < this->_listQueue->size(); it++) {
 		if (this->_listQueue->getAtRank(chosen)->size() > this->_listQueue->getAtRank(it)->size()) {
@@ -57,21 +82,70 @@ Queue* PickQueue::pickQueue() {
 	return this->_listQueue->getAtRank(chosen);
 }
 
-void PickQueue::_execute(Entity* entity) {
-	//assert(!_list->empty());
+Queue* PickQueue::pickCyc() {
 	Queue* chosen;
+	chosen = this->_listQueue->getAtRank(this->currentQ);
+	this->currentQ = (this->currentQ +1) % this->_listQueue->size();
+	//chosen = this->_listQueue->getAtRank(0);
+	return chosen;
+}
 
-//	switch (this->selection) {
-//		case 1 :
-//			chosen = pickEnRoute();
-//			break;
-//		case 2 :
-//			chosen = pickResource();
-//			break;
-//		case 4 :
-			chosen = pickQueue();
-//			break;
-//	}
+Queue* PickQueue::pickRandom() {
+	SamplerDefaultImpl1 sampler = SamplerDefaultImpl1();
+	unsigned int chosen = sampler.sampleUniform(0, this->_listQueue->size() - 1);
+	return this->_listQueue->getAtRank(chosen);
+}
+
+Queue* PickQueue::pickPOR() {
+	return this->_listQueue->getAtRank(0);
+}
+
+Queue* PickQueue::pickLNQ() {
+	return this->_listQueue->getAtRank(0);
+}
+
+Queue* PickQueue::pickLRC() {
+	return this->_listQueue->getAtRank(0);
+}
+
+Queue* PickQueue::pickSRC() {
+	return this->_listQueue->getAtRank(0);
+}
+
+Queue* PickQueue::pickExpression() {
+	return this->_listQueue->getAtRank(0);
+}
+
+void PickQueue::_execute(Entity* entity) {
+	assert (!this->_listQueue->empty());
+	
+	Queue* chosen;
+	switch (this->selection) {
+		case 0:
+			chosen = pickSNQ();
+			break;
+		case 1:
+			chosen = pickCyc();
+			break;
+		case 2:
+			chosen = pickRandom();
+			break;
+		case 3:
+			chosen = pickPOR();
+			break;
+		case 4:
+			chosen = pickLNQ();
+			break;
+		case 5:
+			chosen = pickLRC();
+			break;
+		case 6:
+			chosen = pickSRC();
+			break;
+		case 7:
+			chosen = pickExpression();
+			break;
+	}
 
 	_parentModel->getTracer()->trace(Util::TraceLevel::L5_arrival, "Selected na");
 	//this->_parentModel->sendEntityToComponent(entity, this->getNextComponents()->getFrontConnection(), 0.0);
