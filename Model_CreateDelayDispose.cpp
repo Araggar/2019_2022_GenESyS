@@ -53,7 +53,7 @@ int Model_CreateDelayDispose::main(int argc, char** argv) {
 	//
 	// build the simulation model
 	// if no ModelInfo is provided, then the model will be simulated once (one replication) and the replication length will be 3600 seconds (simulated time)
-	model->getSimulation()->setReplicationLength(6);
+	model->getSimulation()->setReplicationLength(30);
 	// create a (Source)ModelElement of type EntityType, used by a ModelComponent that follows
 	EntityType* entityType1 = new EntityType(model, "Type_of_Representative_Entity");
 	// create a ModelComponent of type Create, used to insert entities into the model
@@ -84,7 +84,7 @@ int Model_CreateDelayDispose::main(int argc, char** argv) {
 	//enter2->setDescription("Enter2 Desc");
 	
 	create1->setEntityType(entityType1);
-	create1->setTimeBetweenCreationsExpression("1.5"); // create one new entity every 1.5 seconds
+	create1->setTimeBetweenCreationsExpression("0.5"); // create one new entity every 1.5 seconds
 	// create a ModelComponent of type Delay, used to represent a time delay
 	Delay* delay1 = new Delay(model);
 	// if nothing else is set, the delay will take 1 second

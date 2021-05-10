@@ -41,83 +41,25 @@ void PickQueue::setMinimum() {
 	this->minimum = true;
 }
 
-void PickQueue::addStation(Station* station) {
-//	this->_list->insert(station);
-//	this->_listResource->insert(NULL);
-//	this->_listQueue->insert(NULL);
-}
-
-void PickQueue::addResource(Resource* resource, Station* station) {
-//	for (unsigned int it = 0; it < this->_list->size(); it++){
-//		if (station == this->_list->getAtRank(it)) {
-//			this->_listResource->setAtRank(it, resource);
-//		}
-//	}
-}
-
 void PickQueue::addQueue(Queue* queue) {
-//	for (unsigned int it = 0; it < this->_list->size(); it++){
-//		if (station == this->_list->getAtRank(it)) {
-//			this->_listQueue->setAtRank(it, queue);
-//		}
-//	}
+	this->_listQueue->insert(queue);
 }
 
-void PickQueue::setSelectionEnRoute() {
-	this->selection = 1;
-}
-
-void PickQueue::setSelectionResource() {
-	this->selection = 2;
-}
-
-void PickQueue::setSelectionQueue() {
-	this->selection = 4;
-}
-
-void PickQueue::setTimeDelay(double delay) {
-	this->_delay = delay;
-}
-
-Station* PickQueue::pickEnRoute() {
-	Station* chosen = this->_list->getAtRank(0);
-	for (unsigned int it = 1; it < this->_list->size(); it++) {
-		if (chosen->getNumberInStation() > this->_list->getAtRank(it)->getNumberInStation()) {
-			chosen = this->_list->getAtRank(it);
-		}
-	}
-	_parentModel->getTracer()->trace(Util::TraceLevel::L5_arrival, "EnRoute \"" + std::to_string(chosen->getNumberInStation()) + "\"");
-	//this->_listEnRoute->setAtRank(chosen, this->_listEnRoute->getAtRank(chosen) + 1);
-	return chosen;
-}
-
-Station* PickQueue::pickResource() {
-	assert (this->_list->size() == this->_listResource->size());
+Queue* PickQueue::pickQueue() {
+	assert (!this->_listQueue->empty());
 	unsigned int chosen = 0;
-	for (unsigned int it = 1; it < this->_list->size(); it++) {
-		if (this->_listResource->getAtRank(chosen)->getNumberBusy() > this->_listResource->getAtRank(it)->getNumberBusy()) {
-			chosen = it;
-		}
-	}
-	_parentModel->getTracer()->trace(Util::TraceLevel::L5_arrival, "Resource \"" + std::to_string(this->_listResource->getAtRank(chosen)->getNumberBusy()) + "\"");
-	return this->_list->getAtRank(chosen);
-}
-
-Station* PickQueue::pickQueue() {
-	assert (this->_list->size() == this->_listQueue->size());
-	unsigned int chosen = 0;
-	for (unsigned int it = 1; it < this->_list->size(); it++) {
+	for (unsigned int it = 1; it < this->_listQueue->size(); it++) {
 		if (this->_listQueue->getAtRank(chosen)->size() > this->_listQueue->getAtRank(it)->size()) {
 			chosen = it;
 		}
 	}
 	_parentModel->getTracer()->trace(Util::TraceLevel::L5_arrival, "Queue \"" + std::to_string(this->_listQueue->getAtRank(chosen)->size()) + "\"");
-	return this->_list->getAtRank(chosen);
+	return this->_listQueue->getAtRank(chosen);
 }
 
 void PickQueue::_execute(Entity* entity) {
 	//assert(!_list->empty());
-	//Station* chosen;
+	Queue* chosen;
 
 //	switch (this->selection) {
 //		case 1 :
@@ -127,7 +69,7 @@ void PickQueue::_execute(Entity* entity) {
 //			chosen = pickResource();
 //			break;
 //		case 4 :
-//			chosen = pickQueue();
+			chosen = pickQueue();
 //			break;
 //	}
 
@@ -135,6 +77,10 @@ void PickQueue::_execute(Entity* entity) {
 	//this->_parentModel->sendEntityToComponent(entity, this->getNextComponents()->getFrontConnection(), 0.0);
 	//this->_parentModel->sendEntityToComponent(entity, chosen->getEnterIntoStationComponent(), this->_delay);
 	//_parentModel->sendEntityToComponent(entity, this->getNextComponents()->getFrontConnection(), 0.0);
+	Waiting* waiting = new Waiting(entity, this, _parentModel->getSimulation()->getSimulatedTime());
+	chosen->insertElement(waiting);
+
+
 }
 
 bool PickQueue::_loadInstance(std::map<std::string, std::string>* fields) {

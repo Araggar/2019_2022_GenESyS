@@ -74,13 +74,7 @@ public: // static
 	static ModelComponent* LoadInstance(Model* model, std::map<std::string, std::string>* fields);
 	void setMaximum();
 	void setMinimum();
-	void addStation(Station* station);
-	void addResource(Resource* resource, Station* station);
 	void addQueue(Queue* queue);
-	void setSelectionEnRoute();
-	void setSelectionResource();
-	void setSelectionQueue();
-	void setTimeDelay(double delay);
 protected: // virtual
 	virtual void _execute(Entity* entity);
 	virtual void _initBetweenReplications();
@@ -88,19 +82,14 @@ protected: // virtual
 	virtual std::map<std::string, std::string>* _saveInstance();
 	virtual bool _check(std::string* errorMessage);
 private: // methods
-	Station* pickEnRoute();
-	Station* pickResource();
-	Station* pickQueue();
+	Queue* pickQueue();
 private: // attributes 1:1
 	bool minimum = true;
 	unsigned int selection = 1;
-	double _delay = 0.0;
 private: // attributes 1:n
-	List<Station*>* _list = new List<Station*>();
-	List<Resource*>* _listResource = new List<Resource*>();
 	List<Queue*>* _listQueue = new List<Queue*>();
 };
 
 
-#endif /* PICKSTATION_H */
+#endif /* PICKQUEUE_H */
 
