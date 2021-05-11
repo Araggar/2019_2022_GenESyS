@@ -179,7 +179,7 @@ Queue* PickQueue::pickSRC() {
 }
 
 Queue* PickQueue::pickExpression() {
-	assert(this->selection == 7 && this->_listQueue->size() == this->_listQueue->size());
+	assert(this->selection == 7 && this->_listQueue->size() == this->_listExpression->size());
 	for (unsigned int it = 0; it < this->_listQueue->size(); it++) {
 		if (_parentModel->parseExpression(this->_listExpression->getAtRank(it))) {
 			return this->_listQueue->getAtRank(it);

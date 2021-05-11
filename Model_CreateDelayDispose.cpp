@@ -74,14 +74,26 @@ int Model_CreateDelayDispose::main(int argc, char** argv) {
 	Queue* queue3 = new Queue(model, "Queue 3");
 	Queue* queue4 = new Queue(model, "Queue 4");
 	PickQueue* pq = new PickQueue(model, "PickQueue");
-	pq->addQueue(queue1);
-	pq->addQueue(queue2);
-	pq->addQueue(queue3);
-	pq->addQueue(queue4);
 
+//	pq->addQueue(queue1);
+//	pq->addQueue(queue2);
+//	pq->addQueue(queue3);
+//	pq->addQueue(queue4);
+//
+	//pq->setSNQ();
 	//pq->setCyc();
-	pq->setRandom();
+	//pq->setRandom();
+	//pq->setLNQ();
+	pq->setExpression();
+	
+	pq->addQueue(queue1, "1 > 4");
+	pq->addQueue(queue2, "1 > 2");
+	pq->addQueue(queue3, "1 < 3");
+	pq->addQueue(queue4, "1 > 4");
 
+	//setPOR();
+	//setLRC();
+	//setSRC();
 
 
 	//Enter* enter1 = new Enter(model);
