@@ -128,7 +128,7 @@ Queue* PickQueue::pickRandom() {
 }
 
 Queue* PickQueue::pickPOR() {
-	// Requires queues to have a maximum size
+	// Requires queues to have a maximum capacity
 	//for (unsigned int it = 0; it < this->_listQueue->size(); it++) {
 	//	if (!this->_listQueue->getAtRank(it)->full()) {
 	//	_parentModel->getTracer()->trace(Util::TraceLevel::L5_arrival, "Queue \"" + std::to_string(this->_listQueue->getAtRank(it)) + "\"");
@@ -149,6 +149,14 @@ Queue* PickQueue::pickLNQ() {
 }
 
 Queue* PickQueue::pickLRC() {
+	// Requires queues to have a maximum capacity
+	//unsigned int chosen = 0;
+	//for (unsigned int it = 1; it < this->_listQueue->size(); it++) {
+	//	if (this->_listQueue->getAtRank(chosen)->remainingCapacity() < this->_listQueue->getAtRank(it)->remainingCapacity()) {
+	//		chosen = it;
+	//	}
+	//}
+	//return this->_listQueue->getAtRank(chosen);
 	return this->_listQueue->getAtRank(0);
 }
 
