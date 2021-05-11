@@ -2,11 +2,13 @@
 0   ModelInfo  "Model 1" 
 0   ModelSimulation "fixed experiment name in ModelSimulation" replicationLength=30.000000 
 1   EntityType "Type_of_Representative_Entity" 
-3   Queue      "Queue 1" 
-4   Queue      "Queue 2" 
-5   Queue      "Queue 3" 
-6   Queue      "Queue 4" 
-2   Create     "Create_1" EntityType="Type_of_Representative_Entity" timeBetweenCreations="0.5" nextId=7 
-7   PickQueue  "PickQueue" nextId=8 
-8   Delay      "Delay_1" nextId=9 
-9   Dispose    "Dispose_1" nextSize=0 
+4   Attribute  "entity_n" 
+5   Queue      "Queue 1" 
+6   Queue      "Queue 2" 
+7   Queue      "Queue 3" 
+8   Queue      "Queue 4" 
+10  Delay      "Delay_1" nextId=11 
+11  Dispose    "Dispose_1" nextSize=0 
+2   Create     "Create_1" EntityType="Type_of_Representative_Entity" timeBetweenCreations="0.5" nextId=3 
+3   Assign     "Assign_1" caption="Define execucao por um quantum de tempo" destination0="entity_n" expression0="NORM(0,1)" nextId=9 
+9   PickQueue  "PickQueue" nextId=10 

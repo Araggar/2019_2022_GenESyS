@@ -28,6 +28,8 @@
 #include "PickStation.h"
 #include "Queue.h"
 #include "PickQueue.h"
+#include "Attribute.h"
+#include "Assign.h"
 
 // Model model
 #include "EntityType.h"
@@ -69,27 +71,32 @@ int Model_CreateDelayDispose::main(int argc, char** argv) {
 	
 	//Route* route1 = new Route(model);	
 	//route1->setStation(station1);
+	Assign* assign = new Assign(model);
+	assign->setDescription("Define execucao por um quantum de tempo");
+	assign->getAssignments()->insert(new Assign::Assignment("entity_n", "NORM(0,1)"));
+	new Attribute(model, "entity_n");
+	
 	Queue* queue1 = new Queue(model, "Queue 1");
 	Queue* queue2 = new Queue(model, "Queue 2");
 	Queue* queue3 = new Queue(model, "Queue 3");
 	Queue* queue4 = new Queue(model, "Queue 4");
 	PickQueue* pq = new PickQueue(model, "PickQueue");
 
-//	pq->addQueue(queue1);
-//	pq->addQueue(queue2);
-//	pq->addQueue(queue3);
-//	pq->addQueue(queue4);
-//
+	pq->addQueue(queue1);
+	pq->addQueue(queue2);
+	pq->addQueue(queue3);
+	pq->addQueue(queue4);
+
 	//pq->setSNQ();
 	//pq->setCyc();
 	//pq->setRandom();
 	//pq->setLNQ();
 	pq->setExpression();
 	
-	pq->addQueue(queue1, "1 > 4");
-	pq->addQueue(queue2, "1 > 2");
-	pq->addQueue(queue3, "1 < 3");
-	pq->addQueue(queue4, "1 > 4");
+//	pq->addQueue(queue1, "entity_n <= 0.2");
+//	pq->addQueue(queue2, "entity_n <= 0.4");
+//	pq->addQueue(queue3, "entity_n <= 0.6");
+//	pq->addQueue(queue4, "1");
 
 	//setPOR();
 	//setLRC();
@@ -118,7 +125,8 @@ int Model_CreateDelayDispose::main(int argc, char** argv) {
 
 	//enter2->getNextComponents()->insert(delay1);
 
-	create1->getNextComponents()->insert(pq);
+	create1->getNextComponents()->insert(assign);
+	assign->getNextComponents()->insert(pq);
 	pq->getNextComponents()->insert(delay1);
 	//pq->getNextComponents()->insert(delay1);
 	delay1->getNextComponents()->insert(dispose1);
