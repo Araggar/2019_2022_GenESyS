@@ -34,39 +34,70 @@ ModelComponent* PickQueue::LoadInstance(Model* model, std::map<std::string, std:
 	return newComponent;
 }
 
-void PickQueue::setMaximum() {
-	this->minimum = false;
-}
-
-void PickQueue::setMinimum() {
-	this->minimum = true;
-}
-
 void PickQueue::addQueue(Queue* queue) {
 	this->_listQueue->insert(queue);
 }
 
+/*
+ * Smallest Number in Queue.
+ * Select the QUEUE block with the current smallest number of entities resident. Break ties using the POR rule.
+*/
 void PickQueue::setSNQ() {
 	this->selection = 0;
 }
+
+/*
+ * CYClic priority. 
+ * Select the first available QUEUE block starting with the successor of the last QUEUE block selected.
+ */
 void PickQueue::setCyc(){
 	this->selection = 1;
 }
+
+/*
+ * Random.
+ * Select randomly from the available QUEUE blocks.
+*/
 void PickQueue::setRandom(){
 	this->selection = 2;
 }
+
+/*
+ * Preferred Order Rule.
+ * Select the first available QUEUE block.
+*/
 void PickQueue::setPOR(){
 	this->selection = 3;
 }
+
+/*
+ * Largest Number in Queue.
+ * Select the QUEUE block with the current largest number of entities resident. Break ties using the POR rule.
+*/
 void PickQueue::setLNQ(){
 	this->selection = 4;
 }
+
+/*
+ * Largest Remaining Capacity.
+ * Select the QUEUE block with the current largest remaining capacity. Break ties using the POR rule.
+*/
 void PickQueue::setLRC(){
 	this->selection = 5;
 }
+
+/*
+ * Smallest Remaining Capacity.
+ * Select the QUEUE block with the current smallest remaining capacity. Break ties using the POR rule.
+*/
 void PickQueue::setSRC(){
 	this->selection = 6;
 }
+
+/*
+ * User Rule.
+ * Select the URth QUEUE block where UR is computed in a user-coded rule function.
+*/
 void PickQueue::setExpression(){
 	this->selection = 7;
 }
@@ -86,7 +117,6 @@ Queue* PickQueue::pickCyc() {
 	Queue* chosen;
 	chosen = this->_listQueue->getAtRank(this->currentQ);
 	this->currentQ = (this->currentQ +1) % this->_listQueue->size();
-	//chosen = this->_listQueue->getAtRank(0);
 	return chosen;
 }
 
@@ -98,6 +128,13 @@ Queue* PickQueue::pickRandom() {
 }
 
 Queue* PickQueue::pickPOR() {
+	// Requires queues to have a maximum size
+	//for (unsigned int it = 0; it < this->_listQueue->size(); it++) {
+	//	if (!this->_listQueue->getAtRank(it)->full()) {
+	//	_parentModel->getTracer()->trace(Util::TraceLevel::L5_arrival, "Queue \"" + std::to_string(this->_listQueue->getAtRank(it)) + "\"");
+	//	return this->_listQueue->getAtRank(it);
+	//	}
+	//}
 	return this->_listQueue->getAtRank(0);
 }
 

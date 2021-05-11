@@ -103,7 +103,6 @@ private: // methods
 	Queue* pickSRC();
 	Queue* pickExpression();
 private: // attributes 1:1
-	bool minimum = true;
 	unsigned int selection = 0;
 	int currentQ = 0;
 	SamplerDefaultImpl1 sampler;
