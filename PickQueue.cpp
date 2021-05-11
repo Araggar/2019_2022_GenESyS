@@ -161,6 +161,16 @@ Queue* PickQueue::pickLRC() {
 }
 
 Queue* PickQueue::pickSRC() {
+	// Requires queues to have a maximum capacity
+	//unsigned int chosen = 0;
+	//for (unsigned int it = 1; it < this->_listQueue->size(); it++) {
+	//	if (!this->_listQueue->getAtRank(it)->full()) {
+	//		if (this->_listQueue->getAtRank(chosen)->remainingCapacity() > this->_listQueue->getAtRank(it)->remainingCapacity())) {
+	//			chosen = it;
+	//		}
+	//	}
+	//}
+	//return this->_listQueue->getAtRank(chosen);
 	return this->_listQueue->getAtRank(0);
 }
 
