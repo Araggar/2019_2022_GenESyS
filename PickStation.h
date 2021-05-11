@@ -75,11 +75,13 @@ public: // static
 	void setMaximum();
 	void setMinimum();
 	void addStation(Station* station);
-	void addResource(Resource* resource, Station* station);
-	void addQueue(Queue* queue, Station* station);
+	void addStation(Station* station, Resource* resource);
+	void addStation(Station* station, Queue* queue);
+	void addStation(Station* station, std::string expression);
 	void setSelectionEnRoute();
 	void setSelectionResource();
 	void setSelectionQueue();
+	void setSelectionExpression();
 	void setTimeDelay(double delay);
 protected: // virtual
 	virtual void _execute(Entity* entity);
@@ -91,14 +93,16 @@ private: // methods
 	Station* pickEnRoute();
 	Station* pickResource();
 	Station* pickQueue();
+	Station* pickExpression();
 private: // attributes 1:1
-	bool minimum = true;
+	std::function<bool(int,int)> op = std::less<int>();
 	unsigned int selection = 1;
 	double _delay = 0.0;
 private: // attributes 1:n
 	List<Station*>* _list = new List<Station*>();
 	List<Resource*>* _listResource = new List<Resource*>();
 	List<Queue*>* _listQueue = new List<Queue*>();
+	List<std::string>* _listExpression = new List<std::string>();
 };
 
 

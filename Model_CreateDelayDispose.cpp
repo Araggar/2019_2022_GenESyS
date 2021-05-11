@@ -60,38 +60,41 @@ int Model_CreateDelayDispose::main(int argc, char** argv) {
 	EntityType* entityType1 = new EntityType(model, "Type_of_Representative_Entity");
 	// create a ModelComponent of type Create, used to insert entities into the model
 	Create* create1 = new Create(model);
-
-	
-	//Station* station1 = new Station(model, "Station 1");
-	//Station* station2 = new Station(model, "Station 2");
-	//
-	//PickQueue* ps = new PickQueue(model);
-	//ps->addStation(station1);
-	//ps->addStation(station2);
-	
-	//Route* route1 = new Route(model);	
-	//route1->setStation(station1);
 	Assign* assign = new Assign(model);
 	assign->setDescription("Define execucao por um quantum de tempo");
 	assign->getAssignments()->insert(new Assign::Assignment("entity_n", "NORM(0,1)"));
 	new Attribute(model, "entity_n");
+
 	
+	Station* station1 = new Station(model, "Station 1");
+	Station* station2 = new Station(model, "Station 2");
 	Queue* queue1 = new Queue(model, "Queue 1");
 	Queue* queue2 = new Queue(model, "Queue 2");
-	Queue* queue3 = new Queue(model, "Queue 3");
-	Queue* queue4 = new Queue(model, "Queue 4");
-	PickQueue* pq = new PickQueue(model, "PickQueue");
+	//Queue* queue3 = new Queue(model, "Queue 3");
+	//Queue* queue4 = new Queue(model, "Queue 4");	
 
-	pq->addQueue(queue1);
-	pq->addQueue(queue2);
-	pq->addQueue(queue3);
-	pq->addQueue(queue4);
-
+	//PickQueue* pq = new PickQueue(model, "PickQueue");
 	//pq->setSNQ();
 	//pq->setCyc();
 	//pq->setRandom();
 	//pq->setLNQ();
-	pq->setExpression();
+	//pq->setExpression();
+	
+	PickStation* ps = new PickStation(model);
+
+	//ps->addStation(station1);
+	//ps->addStation(station2);
+	
+	ps->addStation(station1, queue1);
+	ps->addStation(station2, queue2);
+	
+	//ps->addStation(station1, "entity_n > 0.9");
+	//ps->addStation(station2, "1");
+
+	//pq->addQueue(queue1);
+	//pq->addQueue(queue2);
+	//pq->addQueue(queue3);
+	//pq->addQueue(queue4);
 	
 //	pq->addQueue(queue1, "entity_n <= 0.2");
 //	pq->addQueue(queue2, "entity_n <= 0.4");
@@ -103,13 +106,13 @@ int Model_CreateDelayDispose::main(int argc, char** argv) {
 	//setSRC();
 
 
-	//Enter* enter1 = new Enter(model);
-	//enter1->setStation(station1);	
-	//enter1->setDescription("Enter1 Desc");
+	Enter* enter1 = new Enter(model);
+	enter1->setStation(station1);	
+	enter1->setDescription("Enter1 Desc");
 
-	//Enter* enter2 = new Enter(model);
-	//enter2->setStation(station2);	
-	//enter2->setDescription("Enter2 Desc");
+	Enter* enter2 = new Enter(model);
+	enter2->setStation(station2);	
+	enter2->setDescription("Enter2 Desc");
 	
 	create1->setEntityType(entityType1);
 	create1->setTimeBetweenCreationsExpression("0.5"); // create one new entity every 1.5 seconds
@@ -117,17 +120,16 @@ int Model_CreateDelayDispose::main(int argc, char** argv) {
 	Delay* delay1 = new Delay(model);
 	// if nothing else is set, the delay will take 1 second
 	// create a (Sink)ModelComponent of type Dispose, used to remove entities from the model
-	//PickStation* ps = new PickStation(model);
 	Dispose* dispose1 = new Dispose(model); // insert the component into the model
 	// connect model components to create a "workflow" -- should always start from a SourceModelComponent and end at a SinkModelComponent (it will be checked)
 	
-	//enter1->getNextComponents()->insert(delay1);
+	enter1->getNextComponents()->insert(delay1);
 
-	//enter2->getNextComponents()->insert(delay1);
+	enter2->getNextComponents()->insert(delay1);
 
 	create1->getNextComponents()->insert(assign);
-	assign->getNextComponents()->insert(pq);
-	pq->getNextComponents()->insert(delay1);
+	assign->getNextComponents()->insert(ps);
+	//pq->getNextComponents()->insert(delay1);
 	//pq->getNextComponents()->insert(delay1);
 	delay1->getNextComponents()->insert(dispose1);
 	//enter1->getNextComponents()->insert(dispose1);
