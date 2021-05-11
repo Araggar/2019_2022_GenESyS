@@ -109,7 +109,7 @@ Queue* PickQueue::pickSNQ() {
 			chosen = it;
 		}
 	}
-	_parentModel->getTracer()->trace(Util::TraceLevel::L5_arrival, "Queue \"" + std::to_string(this->_listQueue->getAtRank(chosen)->size()) + "\"");
+	//_parentModel->getTracer()->trace(Util::TraceLevel::L5_arrival, "Queue \"" + std::to_string(this->_listQueue->getAtRank(chosen)->size()) + "\"");
 	return this->_listQueue->getAtRank(chosen);
 }
 
@@ -139,7 +139,13 @@ Queue* PickQueue::pickPOR() {
 }
 
 Queue* PickQueue::pickLNQ() {
-	return this->_listQueue->getAtRank(0);
+	unsigned int chosen = 0;
+	for (unsigned int it = 1; it < this->_listQueue->size(); it++) {
+		if (this->_listQueue->getAtRank(chosen)->size() < this->_listQueue->getAtRank(it)->size()) {
+			chosen = it;
+		}
+	}
+	return this->_listQueue->getAtRank(chosen);
 }
 
 Queue* PickQueue::pickLRC() {
