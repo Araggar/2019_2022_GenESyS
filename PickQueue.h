@@ -20,6 +20,7 @@
 #include "Resource.h"
 #include "Queue.h"
 #include "SamplerDefaultImpl1.h"
+#include "ParserDefaultImpl1.h"
 
 /*!
  PickQueue module
@@ -76,6 +77,7 @@ public: // static
 	void setMaximum();
 	void setMinimum();
 	void addQueue(Queue* queue);
+	void addQueue(Queue* queue, std::string expression);
 
 	void setCyc();
 	void setRandom();
@@ -105,9 +107,10 @@ private: // methods
 private: // attributes 1:1
 	unsigned int selection = 0;
 	int currentQ = 0;
-	SamplerDefaultImpl1 sampler;
+	SamplerDefaultImpl1 _sampler;
 private: // attributes 1:n
 	List<Queue*>* _listQueue = new List<Queue*>();
+	List<std::string>* _listExpression = new List<std::string>();
 };
 
 

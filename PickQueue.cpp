@@ -17,7 +17,7 @@
 #include <assert.h>
 
 PickQueue::PickQueue(Model* model, std::string name) : ModelComponent(model, Util::TypeOf<PickQueue>(), name) {
-	sampler = SamplerDefaultImpl1();
+	_sampler = SamplerDefaultImpl1();
 }
 
 std::string PickQueue::show() {
@@ -36,6 +36,11 @@ ModelComponent* PickQueue::LoadInstance(Model* model, std::map<std::string, std:
 
 void PickQueue::addQueue(Queue* queue) {
 	this->_listQueue->insert(queue);
+}
+
+void PickQueue::addQueue(Queue* queue, std::string expression) {
+	this->_listQueue->insert(queue);
+	this->_listExpression->insert(expression);
 }
 
 /*
@@ -121,8 +126,7 @@ Queue* PickQueue::pickCyc() {
 }
 
 Queue* PickQueue::pickRandom() {
-	SamplerDefaultImpl1 sampler = SamplerDefaultImpl1();
-	unsigned int chosen = this->sampler.sampleUniform(0, this->_listQueue->size());
+	unsigned int chosen = this->_sampler.sampleUniform(0, this->_listQueue->size());
 	_parentModel->getTracer()->trace(Util::TraceLevel::L5_arrival, "Queue \"" + std::to_string(chosen) + "\"");
 	return this->_listQueue->getAtRank(chosen);
 }
@@ -175,6 +179,12 @@ Queue* PickQueue::pickSRC() {
 }
 
 Queue* PickQueue::pickExpression() {
+	assert(this->selection == 7 && this->_listQueue->size() == this->_listQueue->size());
+	for (unsigned int it = 0; it < this->_listQueue->size(); it++) {
+		if (_parentModel->parseExpression(this->_listExpression->getAtRank(it))) {
+			return this->_listQueue->getAtRank(it);
+		}
+	}
 	return this->_listQueue->getAtRank(0);
 }
 
