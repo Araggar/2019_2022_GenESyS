@@ -23,6 +23,8 @@
 #include "Delay.h"
 #include "Dispose.h"
 #include "PickQueue.h"
+#include "Assign.h"
+#include "Attribute.h"
 
 // Model model
 #include "EntityType.h"
@@ -44,25 +46,30 @@ int Model_PickQueueExpression::main(int argc, char** argv) {
 	Model* model = genesys->getModels()->newModel();
 	model->getSimulation()->setReplicationLength(60);
 	EntityType* entityType1 = new EntityType(model, "Type_of_Representative_Entity");
-	
+	Assign* assign = new Assign(model);
+	assign->setDescription("Define atributo entity_n");
+	assign->getAssignments()->insert(new Assign::Assignment("entity_n", "NORM(0,1)"));
+	new Attribute(model, "entity_n");
+
 	//
 	PickQueue* pq = new PickQueue(model);
 	Queue* queue1 = new Queue(model, "Q1");
-	Queue* queue2 = new Queue(model, "Q1");
-	Queue* queue3 = new Queue(model, "Q1");
-	Queue* queue4 = new Queue(model, "Q1");
+	Queue* queue2 = new Queue(model, "Q2");
+	Queue* queue3 = new Queue(model, "Q3");
+	Queue* queue4 = new Queue(model, "Q4");
 
-	pq->addQueue(queue1);
-	pq->addQueue(queue2);
-	pq->addQueue(queue3);
-	pq->addQueue(queue4);
+	pq->addQueue(queue1, "entity_n < 0.1");
+	pq->addQueue(queue2, "entity_n < 0.4");
+	pq->addQueue(queue3, "entity_n < 0.8");
+	pq->addQueue(queue4, "1");
 
 	Create* create1 = new Create(model);
 	create1->setEntityType(entityType1);
 	create1->setTimeBetweenCreationsExpression("1.5"); // create one new entity every 1.5 seconds
 
 	//
-	create1->getNextComponents()->insert(pq);
+	create1->getNextComponents()->insert(assign);
+	assign->getNextComponents()->insert(pq);
 
 	//
 	model->save("./models/Model_PickQueueExpression.txt");

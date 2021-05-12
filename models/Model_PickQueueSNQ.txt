@@ -3,8 +3,8 @@
 0   ModelSimulation "fixed experiment name in ModelSimulation" replicationLength=60.000000 
 1   EntityType "Type_of_Representative_Entity" 
 3   Queue      "Q1" 
-4   Queue      "Q1" 
-5   Queue      "Q1" 
-6   Queue      "Q1" 
+4   Queue      "Q2" 
+5   Queue      "Q3" 
+6   Queue      "Q4" 
 2   PickQueue  "PickQueue_1" nextSize=0 
-7   Create     "Create_1" EntityType="Type_of_Representative_Entity" timeBetweenCreations="0.5" nextId=2 
+7   Create     "Create_1" EntityType="Type_of_Representative_Entity" timeBetweenCreations="1.5" nextId=2 

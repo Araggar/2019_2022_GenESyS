@@ -48,9 +48,11 @@ int Model_PickQueueLNQ::main(int argc, char** argv) {
 	//
 	PickQueue* pq = new PickQueue(model);
 	Queue* queue1 = new Queue(model, "Q1");
-	Queue* queue2 = new Queue(model, "Q1");
-	Queue* queue3 = new Queue(model, "Q1");
-	Queue* queue4 = new Queue(model, "Q1");
+	Queue* queue2 = new Queue(model, "Q2");
+	Queue* queue3 = new Queue(model, "Q3");
+	Queue* queue4 = new Queue(model, "Q4");
+
+	pq->setLNQ();
 
 	pq->addQueue(queue1);
 	pq->addQueue(queue2);

@@ -101,9 +101,9 @@ struct Traits {
 template <> struct Traits<GenesysApplication_if> {
 	//typedef Model_PickQueueSNQ Application;
 	//typedef Model_PickQueueCyc Application;
-	typedef Model_PickQueueRandom Application;
+	//typedef Model_PickQueueRandom Application;
 	//typedef Model_PickQueueLNQ Application;
-	//typedef Model_PickQueueExpression Application;
+	typedef Model_PickQueueExpression Application;
 	
 	//typedef Model_CreateDelayDispose Application;
 	//typedef Model_SeizeDelayRelease1 Application;

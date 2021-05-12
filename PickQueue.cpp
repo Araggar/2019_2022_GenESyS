@@ -39,6 +39,7 @@ void PickQueue::addQueue(Queue* queue) {
 }
 
 void PickQueue::addQueue(Queue* queue, std::string expression) {
+	setExpression();
 	this->_listQueue->insert(queue);
 	this->_listExpression->insert(expression);
 }
@@ -114,7 +115,6 @@ Queue* PickQueue::pickSNQ() {
 			chosen = it;
 		}
 	}
-	//_parentModel->getTracer()->trace(Util::TraceLevel::L5_arrival, "Queue \"" + std::to_string(this->_listQueue->getAtRank(chosen)->size()) + "\"");
 	return this->_listQueue->getAtRank(chosen);
 }
 
@@ -127,7 +127,6 @@ Queue* PickQueue::pickCyc() {
 
 Queue* PickQueue::pickRandom() {
 	unsigned int chosen = this->_sampler.sampleUniform(0, this->_listQueue->size());
-	_parentModel->getTracer()->trace(Util::TraceLevel::L5_arrival, "Queue \"" + std::to_string(chosen) + "\"");
 	return this->_listQueue->getAtRank(chosen);
 }
 
@@ -135,7 +134,6 @@ Queue* PickQueue::pickPOR() {
 	// Requires queues to have a maximum capacity
 	//for (unsigned int it = 0; it < this->_listQueue->size(); it++) {
 	//	if (!this->_listQueue->getAtRank(it)->full()) {
-	//	_parentModel->getTracer()->trace(Util::TraceLevel::L5_arrival, "Queue \"" + std::to_string(this->_listQueue->getAtRank(it)) + "\"");
 	//	return this->_listQueue->getAtRank(it);
 	//	}
 	//}
@@ -219,7 +217,7 @@ void PickQueue::_execute(Entity* entity) {
 			break;
 	}
 
-	_parentModel->getTracer()->trace(Util::TraceLevel::L5_arrival, "Selected na");
+	_parentModel->getTracer()->trace(Util::TraceLevel::L5_arrival, "Selected \"" + chosen->getName() + "\"");
 	Waiting* waiting = new Waiting(entity, this, _parentModel->getSimulation()->getSimulatedTime());
 	chosen->insertElement(waiting);
 }

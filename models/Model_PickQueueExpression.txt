@@ -1,0 +1,12 @@
+0   SimulatorInfo "GenESyS - GENeric and Expansible SYstem Simulator" versionNumber=210420 
+0   ModelInfo  "Model 1" 
+0   ModelSimulation "fixed experiment name in ModelSimulation" replicationLength=60.000000 
+1   EntityType "Type_of_Representative_Entity" 
+3   Attribute  "entity_n" 
+5   Queue      "Q1" 
+6   Queue      "Q2" 
+7   Queue      "Q3" 
+8   Queue      "Q4" 
+2   Assign     "Assign_1" caption="Define atributo entity_n" destination0="entity_n" expression0="NORM(0,1)" nextId=4 
+4   PickQueue  "PickQueue_1" nextSize=0 
+9   Create     "Create_1" EntityType="Type_of_Representative_Entity" timeBetweenCreations="1.5" nextId=2 
