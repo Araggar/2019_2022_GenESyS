@@ -1,0 +1,20 @@
+0   SimulatorInfo "GenESyS - GENeric and Expansible SYstem Simulator" versionNumber=210420 
+0   ModelInfo  "Model 1" 
+0   ModelSimulation "fixed experiment name in ModelSimulation" replicationLength=60.000000 
+1   EntityType "Type_of_Representative_Entity" 
+10  Queue      "Q4" 
+3   Station    "S1" 
+4   Station    "S2" 
+5   Station    "S3" 
+6   Station    "S4" 
+7   Queue      "Q1" 
+8   Queue      "Q2" 
+9   Queue      "Q3" 
+11  Create     "Create_1" EntityType="Type_of_Representative_Entity" timeBetweenCreations="1.5" nextId=2 
+12  Enter      "Enter_1" caption="Enter1" station="S1" nextId=16 
+13  Enter      "Enter_2" caption="Enter2" station="S2" nextId=16 
+14  Enter      "Enter_3" caption="Enter3" station="S3" nextId=17 
+15  Enter      "Enter_4" caption="Enter4" station="S4" nextId=17 
+16  Dispose    "Dispose_1" nextSize=0 
+17  Dispose    "Dispose_2" nextSize=0 
+2   PickStation "PickStation_1" nextSize=0 

@@ -84,6 +84,10 @@ OBJECTFILES= \
 	${OBJECTDIR}/ModelSimulation.o \
 	${OBJECTDIR}/Model_AssignWrite3Seizes.o \
 	${OBJECTDIR}/Model_CreateDelayDispose.o \
+	${OBJECTDIR}/Model_PickStationEnRoute.o \
+	${OBJECTDIR}/Model_PickStationQueue.o \
+	${OBJECTDIR}/Model_PickStationResource.o \
+	${OBJECTDIR}/Model_PickStationExpression.o \
 	${OBJECTDIR}/Model_PickQueueSNQ.o \
 	${OBJECTDIR}/Model_PickQueueCyc.o \
 	${OBJECTDIR}/Model_PickQueueRandom.o \
@@ -428,6 +432,26 @@ ${OBJECTDIR}/Model_PickQueueSNQ.o: Model_PickQueueSNQ.cpp nbproject/Makefile-${C
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Model_PickQueueSNQ.o Model_PickQueueSNQ.cpp
+
+${OBJECTDIR}/Model_PickStationEnRoute.o: Model_PickStationEnRoute.cpp nbproject/Makefile-${CND_CONF}.mk
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Model_PickStationEnRoute.o Model_PickStationEnRoute.cpp
+
+${OBJECTDIR}/Model_PickStationQueue.o: Model_PickStationQueue.cpp nbproject/Makefile-${CND_CONF}.mk
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Model_PickStationQueue.o Model_PickStationQueue.cpp
+
+${OBJECTDIR}/Model_PickStationResource.o: Model_PickStationResource.cpp nbproject/Makefile-${CND_CONF}.mk
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Model_PickStationResource.o Model_PickStationResource.cpp
+
+${OBJECTDIR}/Model_PickStationExpression.o: Model_PickStationExpression.cpp nbproject/Makefile-${CND_CONF}.mk
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Model_PickStationExpression.o Model_PickStationExpression.cpp
 
 ${OBJECTDIR}/Model_PickQueueCyc.o: Model_PickQueueCyc.cpp nbproject/Makefile-${CND_CONF}.mk
 	${MKDIR} -p ${OBJECTDIR}
