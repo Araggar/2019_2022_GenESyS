@@ -74,9 +74,9 @@ public:
 	void initBetweenReplications();
 	void enter(Entity* entity);
 	void leave(Entity* entity);
-	unsigned int getNumberInStation();
 	void setEnterIntoStationComponent(ModelComponent* _enterIntoStationComponent);
 	ModelComponent* getEnterIntoStationComponent() const;
+	unsigned int getNumberInStation();
 protected:
 	virtual bool _loadInstance(std::map<std::string, std::string>* fields);
 	virtual std::map<std::string, std::string>* _saveInstance();

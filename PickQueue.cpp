@@ -220,13 +220,8 @@ void PickQueue::_execute(Entity* entity) {
 	}
 
 	_parentModel->getTracer()->trace(Util::TraceLevel::L5_arrival, "Selected na");
-	//this->_parentModel->sendEntityToComponent(entity, this->getNextComponents()->getFrontConnection(), 0.0);
-	//this->_parentModel->sendEntityToComponent(entity, chosen->getEnterIntoStationComponent(), this->_delay);
-	//_parentModel->sendEntityToComponent(entity, this->getNextComponents()->getFrontConnection(), 0.0);
 	Waiting* waiting = new Waiting(entity, this, _parentModel->getSimulation()->getSimulatedTime());
 	chosen->insertElement(waiting);
-
-
 }
 
 bool PickQueue::_loadInstance(std::map<std::string, std::string>* fields) {

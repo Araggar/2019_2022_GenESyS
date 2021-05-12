@@ -11,7 +11,7 @@
  * Created on 3 de Setembro de 2019, 18:34
  */
 
-#include "Model_CreateDelayDispose.h"
+#include "Model_PickQueueExpression.h"
 
 // you have to included need libs
 
@@ -22,18 +22,19 @@
 #include "Create.h"
 #include "Delay.h"
 #include "Dispose.h"
+#include "PickQueue.h"
 
 // Model model
 #include "EntityType.h"
 
-Model_CreateDelayDispose::Model_CreateDelayDispose() {
+Model_PickQueueExpression::Model_PickQueueExpression() {
 }
 
 /**
  * This is the main function of the application. 
  * It instanciates the simulator, builds a simulation model and then simulate that model.
  */
-int Model_CreateDelayDispose::main(int argc, char** argv) {
+int Model_PickQueueExpression::main(int argc, char** argv) {
 	Simulator* genesys = new Simulator();
 	// insert "fake plugins" since plugins based on dynamic loaded library are not implemented yet
 	this->insertFakePluginsByHand(genesys);
@@ -41,30 +42,30 @@ int Model_CreateDelayDispose::main(int argc, char** argv) {
 	this->setDefaultTraceHandlers(genesys->getTracer());
 	genesys->getTracer()->setTraceLevel(Util::TraceLevel::L5_arrival);
 	Model* model = genesys->getModels()->newModel();
-	//model->load("./models/Model_CreateDelayDispose.txt");
-	//model->getSimulation()->start();
-	//return 0;
-	//
-	// build the simulation model
-	// if no ModelInfo is provided, then the model will be simulated once (one replication) and the replication length will be 3600 seconds (simulated time)
 	model->getSimulation()->setReplicationLength(60);
-	// create a (Source)ModelElement of type EntityType, used by a ModelComponent that follows
 	EntityType* entityType1 = new EntityType(model, "Type_of_Representative_Entity");
-	// create a ModelComponent of type Create, used to insert entities into the model
+	
+	//
+	PickQueue* pq = new PickQueue(model);
+	Queue* queue1 = new Queue(model, "Q1");
+	Queue* queue2 = new Queue(model, "Q1");
+	Queue* queue3 = new Queue(model, "Q1");
+	Queue* queue4 = new Queue(model, "Q1");
+
+	pq->addQueue(queue1);
+	pq->addQueue(queue2);
+	pq->addQueue(queue3);
+	pq->addQueue(queue4);
+
 	Create* create1 = new Create(model);
 	create1->setEntityType(entityType1);
 	create1->setTimeBetweenCreationsExpression("1.5"); // create one new entity every 1.5 seconds
-	// create a ModelComponent of type Delay, used to represent a time delay
-	Delay* delay1 = new Delay(model);
-	// if nothing else is set, the delay will take 1 second
-	// create a (Sink)ModelComponent of type Dispose, used to remove entities from the model
-	Dispose* dispose1 = new Dispose(model); // insert the component into the model
-	// connect model components to create a "workflow" -- should always start from a SourceModelComponent and end at a SinkModelComponent (it will be checked)
-	create1->getNextComponents()->insert(delay1);
-	delay1->getNextComponents()->insert(dispose1);
-	// save the model into a text file
-	model->save("./models/Model_CreateDelayDispose.txt");
-	// execute the simulation util completed and show the report
+
+	//
+	create1->getNextComponents()->insert(pq);
+
+	//
+	model->save("./models/Model_PickQueueExpression.txt");
 	model->getSimulation()->start();
 	genesys->~Simulator();
 	return 0;

@@ -39,10 +39,6 @@ void Station::initBetweenReplications() {
 
 }
 
-unsigned int Station::getNumberInStation() {
-	return _numberInStation;
-}
-
 void Station::enter(Entity* entity) {
 	std::string attributeName = "Entity.ArrivalAt" + this->getName();
 	trimwithin(attributeName);
@@ -104,6 +100,10 @@ bool Station::_loadInstance(std::map<std::string, std::string>* fields) {
 std::map<std::string, std::string>* Station::_saveInstance() {
 	std::map<std::string, std::string>* fields = ModelElement::_saveInstance(); //Util::TypeOf<Station>());
 	return fields;
+}
+
+unsigned int Station::getNumberInStation() {
+	return _numberInStation;
 }
 
 bool Station::_check(std::string* errorMessage) {

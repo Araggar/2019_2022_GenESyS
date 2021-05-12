@@ -64,6 +64,11 @@
 #include "FullSimulationOfComplexModel.h"
 //#include "BuildSimulationModel03.h"
 #include "Model_CreateDelayDispose.h"
+#include "Model_PickQueueSNQ.h"
+#include "Model_PickQueueCyc.h"
+#include "Model_PickQueueRandom.h"
+#include "Model_PickQueueLNQ.h"
+#include "Model_PickQueueExpression.h"
 #include "Model_CreteDelayDispose2.h"
 #include "Model_AssignWrite3Seizes.h"
 #include "GenesysGUI.h"
@@ -94,7 +99,13 @@ struct Traits {
  */
 
 template <> struct Traits<GenesysApplication_if> {
-	typedef Model_CreateDelayDispose Application;
+	//typedef Model_PickQueueSNQ Application;
+	//typedef Model_PickQueueCyc Application;
+	typedef Model_PickQueueRandom Application;
+	//typedef Model_PickQueueLNQ Application;
+	//typedef Model_PickQueueExpression Application;
+	
+	//typedef Model_CreateDelayDispose Application;
 	//typedef Model_SeizeDelayRelease1 Application;
 	//typedef Model_SeizeDelayReleaseMany Application;
 	////typedef Model_AssignWrite3Seizes Application;

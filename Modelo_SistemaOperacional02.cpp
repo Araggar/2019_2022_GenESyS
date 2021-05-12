@@ -24,15 +24,12 @@
 #include "Delay.h"
 #include "Release.h"
 #include "Dispose.h"
-#include "PickStation.h"
 
 //#include "EntityType.h"
 //#include "Queue.h"
 //#include "SeizableItemRequest.h"
 //#include "Station.h"
 #include "Attribute.h"
-
-#include "PickQueue.h"
 
 Modelo_SistemaOperacional02::Modelo_SistemaOperacional02() {
 }
@@ -65,12 +62,7 @@ int Modelo_SistemaOperacional02::main(int argc, char** argv) {
 	// SEIZE memoria
 	Resource* memoria = new Resource(model, "memoria");
 	memoria->setCapacity(64);
-
 	Queue* queueMem = new Queue(model, "Fila_Alocacao_Memoria");
-	Queue* queueMem2 = new Queue(model, "Fila_Alocacao_Memoria2");
-
-	//PickQueue* pickQueue = new PickQueue(model, "PickQueue 1");
-
 	Seize* seizeMem = new Seize(model);
 	seizeMem->setDescription("Processo aloca memória");
 	seizeMem->setQueue(queueMem);
@@ -80,13 +72,11 @@ int Modelo_SistemaOperacional02::main(int argc, char** argv) {
 	//
 	// ROUTE Processo é enviado para execução na CPU
 	Station* stationExecucao = new Station(model, "Estacao_de_Execucao");
-	
 	Route* routeExecucao1 = new Route(model);
 	routeExecucao1->setDescription("Processo é enviado para execução na CPU");
 	routeExecucao1->setStation(stationExecucao);
 
 	seizeMem->getNextComponents()->insert(routeExecucao1);
-	
 	//
 	// ENTER Processo chega para ser executado
 	Enter* enterStationExecucao = new Enter(model);
@@ -187,7 +177,7 @@ int Modelo_SistemaOperacional02::main(int argc, char** argv) {
 	ModelSimulation* sim = model->getSimulation();
 	sim->setReplicationLength(1e3);
 	sim->setReplicationLengthTimeUnit(Util::TimeUnit::milisecond);
-	sim->setNumberOfReplications(1);
+	sim->setNumberOfReplications(30);
 	sim->setPauseOnReplication(true);
 	// AJUSTA NÍVEL DE TRACE
 	genesys->getTracer()->setTraceLevel(Util::TraceLevel::L3_results);
