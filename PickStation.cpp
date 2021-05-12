@@ -91,7 +91,6 @@ Station* PickStation::pickEnRoute() {
 			chosen = this->_list->getAtRank(it);
 		}
 	}
-	_parentModel->getTracer()->trace(Util::TraceLevel::L5_arrival, "'EnRoute' Sent to \"" + chosen->getName() + "\"");
 	return chosen;
 }
 
@@ -104,7 +103,6 @@ Station* PickStation::pickResource() {
 			chosen = it;
 		}
 	}
-	_parentModel->getTracer()->trace(Util::TraceLevel::L5_arrival, "'Resource' Sent to \"" + this->_list->getAtRank(chosen)->getName() + "\"");
 	return this->_list->getAtRank(chosen);
 }
 
@@ -117,7 +115,6 @@ Station* PickStation::pickQueue() {
 			chosen = it;
 		}
 	}
-	_parentModel->getTracer()->trace(Util::TraceLevel::L5_arrival, "'Queue' Sent to \"" + this->_list->getAtRank(chosen)->getName() + "\"");
 	return this->_list->getAtRank(chosen);
 }
 
@@ -125,7 +122,6 @@ Station* PickStation::pickExpression() {
 	assert (this->_list->size() == this->_listExpression->size());
 	for (unsigned int it = 0; it < this->_list->size(); it++) {
 		if (_parentModel->parseExpression(this->_listExpression->getAtRank(it))) {
-			_parentModel->getTracer()->trace(Util::TraceLevel::L5_arrival, "'Expression' Sent to \"" + this->_list->getAtRank(it)->getName() + "\"");
 			return this->_list->getAtRank(it);
 		}
 	}
@@ -135,7 +131,6 @@ void PickStation::_execute(Entity* entity) {
 	assert(!_list->empty());
 	Station* chosen;
 
-	_parentModel->getTracer()->trace(Util::TraceLevel::L5_arrival, "Selected " + std::to_string(this->selection));
 	switch (this->selection) {
 		case 1 :
 			chosen = pickEnRoute();
