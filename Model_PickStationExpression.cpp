@@ -56,7 +56,7 @@ int Model_PickStationExpression::main(int argc, char** argv) {
 
 	//
 	PickStation* ps = new PickStation(model);
-	
+
 	Station* station1 = new Station(model, "S1");
 	Station* station2 = new Station(model, "S2");
 	Station* station3 = new Station(model, "S3");
@@ -78,7 +78,7 @@ int Model_PickStationExpression::main(int argc, char** argv) {
 	Enter* enter2 = new Enter(model);
 	enter2->setStation(station2);	
 	enter2->setDescription("Enter2");
-	
+
 	Enter* enter3 = new Enter(model);
 	enter3->setStation(station3);	
 	enter3->setDescription("Enter3");

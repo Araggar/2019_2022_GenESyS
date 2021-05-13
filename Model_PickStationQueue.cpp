@@ -48,10 +48,10 @@ int Model_PickStationQueue::main(int argc, char** argv) {
 	Model* model = genesys->getModels()->newModel();
 	model->getSimulation()->setReplicationLength(60);
 	EntityType* entityType1 = new EntityType(model, "Type_of_Representative_Entity");
-	
+
 	//
 	PickStation* ps = new PickStation(model);
-	
+
 	Station* station1 = new Station(model, "S1");
 	Station* station2 = new Station(model, "S2");
 	Station* station3 = new Station(model, "S3");
@@ -61,7 +61,7 @@ int Model_PickStationQueue::main(int argc, char** argv) {
 	Resource* resource2 = new Resource(model, "R2");
 	Resource* resource3 = new Resource(model, "R3");
 	Resource* resource4 = new Resource(model, "R4");
-	
+
 	ps->addStation(station1, resource1);
 	ps->addStation(station2, resource2);
 	ps->addStation(station3, resource3);
@@ -78,7 +78,7 @@ int Model_PickStationQueue::main(int argc, char** argv) {
 	Enter* enter2 = new Enter(model);
 	enter2->setStation(station2);	
 	enter2->setDescription("Enter2");
-	
+
 	Enter* enter3 = new Enter(model);
 	enter3->setStation(station3);	
 	enter3->setDescription("Enter3");

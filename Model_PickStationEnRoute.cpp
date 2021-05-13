@@ -48,10 +48,10 @@ int Model_PickStationEnRoute::main(int argc, char** argv) {
 	Model* model = genesys->getModels()->newModel();
 	model->getSimulation()->setReplicationLength(60);
 	EntityType* entityType1 = new EntityType(model, "Type_of_Representative_Entity");
-	
+
 	//
 	PickStation* ps = new PickStation(model);
-	
+
 	Station* station1 = new Station(model, "S1");
 	Station* station2 = new Station(model, "S2");
 	Station* station3 = new Station(model, "S3");
@@ -61,16 +61,6 @@ int Model_PickStationEnRoute::main(int argc, char** argv) {
 	ps->addStation(station2);
 	ps->addStation(station3);
 	ps->addStation(station4);
-
-	//Queue* queue1 = new Queue(model, "Q1");
-	//Queue* queue2 = new Queue(model, "Q2");
-	//Queue* queue3 = new Queue(model, "Q3");
-	//Queue* queue4 = new Queue(model, "Q4");
-
-	//pq->addQueue(queue1);
-	//pq->addQueue(queue2);
-	//pq->addQueue(queue3);
-	//pq->addQueue(queue4);
 
 	Create* create1 = new Create(model);
 	create1->setEntityType(entityType1);
@@ -83,7 +73,7 @@ int Model_PickStationEnRoute::main(int argc, char** argv) {
 	Enter* enter2 = new Enter(model);
 	enter2->setStation(station2);	
 	enter2->setDescription("Enter2");
-	
+
 	Enter* enter3 = new Enter(model);
 	enter3->setStation(station3);	
 	enter3->setDescription("Enter3");

@@ -140,7 +140,6 @@ void PickStation::_execute(Entity* entity) {
 			break;
 		case 4 :
 			chosen = pickQueue();
-			//chosen = pickExpression();
 			break;
 		case 8:
 			chosen = pickExpression();
